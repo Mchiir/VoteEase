@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Voting System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Voting System</title>
+    <link href="resources/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
 </head>
-<body>
-<h1>Welcome to the Voting System</h1>
-<a th:href="@{/vote}">Go to Voting Page</a>
-<a th:href="@{/logout}">Logout</a>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<div class="bg-white shadow-lg rounded-xl p-8 max-w-lg text-center">
+    <h1 class="text-3xl font-bold text-blue-600 mb-4" th:text="${message}"></h1>
+    <p class="text-gray-700">Cast your vote and make a difference!</p>
+
+    <a href="/vote" class="mt-6 inline-block px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600">
+        Vote Now
+    </a>
+</div>
+
+<script src="resources/css/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

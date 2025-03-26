@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Cast Your Vote</title>
+    <link href="resources/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
 </head>
-<body>
-<h1>Cast Your Vote</h1>
-<form th:action="@{/vote}" method="post">
-    <label>Select Candidate:</label>
-    <select name="candidateId">
-        <option th:each="candidate : ${candidates}"
-                th:value="${candidate.id}"
-                th:text="${candidate.name}"></option>
-    </select>
-    <button type="submit">Vote</button>
-</form>
+<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+
+<div class="card shadow-lg rounded p-4 text-center" style="max-width: 400px;">
+    <h1 class="text-primary fw-bold" th:text="${message}"></h1>
+    <p class="text-muted">Cast your vote and make a difference!</p>
+
+    <a href="/vote" class="btn btn-primary mt-3">Vote Now</a>
+</div>
+
+<!-- Bootstrap JS (Optional) -->
+<script src="resources/css/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

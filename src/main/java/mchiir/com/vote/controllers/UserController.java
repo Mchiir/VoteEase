@@ -5,6 +5,7 @@ import mchiir.com.vote.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +20,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/add")
-    @ResponseBody
-    public User saveUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ModelAndView saveUser(@ModelAttribute User user) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user");
+        modelAndView.addObject("user", user);
+        return modelAndView;
     }
 
     @GetMapping("/get/{id}")
