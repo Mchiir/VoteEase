@@ -35,3 +35,4 @@ build/
 .env
 application.properties
 input.txt
+bootstrap/
