@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Voting System</title>
-    <link href="resources/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body class="bg-light d-flex justify-content-center align-items-center min-vh-100">
 
-<div class="bg-white shadow-lg rounded-xl p-8 max-w-lg text-center">
-    <h1 class="text-3xl font-bold text-blue-600 mb-4" th:text="${message}"></h1>
-    <p class="text-gray-700">Cast your vote and make a difference!</p>
+<div class="bg-white shadow-lg rounded p-4 text-center">
+    <h1 class="text-primary fw-bold mb-3" th:text="${message}"></h1>
+    <p class="text-secondary">Cast your vote and make a difference!</p>
 
-    <a href="/vote" class="mt-6 inline-block px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600">
+    <a href="/vote" class="mt-3 btn btn-primary">
         Vote Now
     </a>
 </div>
 
-<script src="resources/css/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

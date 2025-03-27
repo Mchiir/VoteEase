@@ -35,4 +35,5 @@ build/
 .env
 application.properties
 input.txt
-bootstrap/
+src/main/resources/static/css
+src/main/resources/static/js
