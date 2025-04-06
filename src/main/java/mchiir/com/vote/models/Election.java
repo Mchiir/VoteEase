@@ -1,9 +1,15 @@
 package mchiir.com.vote.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -11,6 +17,9 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "elections")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter @Setter
 public class Election {
 
     // Unique identifier for the election
@@ -28,17 +37,29 @@ public class Election {
     private String description;
 
     // When voting starts
-    @Column(name = "start_date", nullable = false)
-    private LocalDateTime startDate;
+    @Column(name = "start_time", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startTime;
 
     // When voting ends
-    @Column(name = "end_date", nullable = false)
-    private LocalDateTime endDate;
+    @Column(name = "end_time", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endTime;
+
+    @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
+    private List<Candidate> candidates;
+
+    @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
+    private List<Voter> voters;
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    private User admin;
 
     // Current status of the election (UPCOMING, ONGOING, CLOSED)
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ElectionStatus status = ElectionStatus.UPCOMING;
 
-    // Getters and setters (omitted for brevity)
+    // Getters and setters
 }

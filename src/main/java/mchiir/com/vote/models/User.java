@@ -18,54 +18,57 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
 public class User {
-
-    // Unique identifier for the user (UUID)
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    // Full name of the user
     @Column(nullable = false)
-    private String name;
+    private String name;// full-name
 
     // Unique email for login
-    @Column(nullable = false, unique = true)
-    private String email;
+    @Column(nullable = false, unique = false)
+    private String email;// same email due to many elections with same participants
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    // Role of the user (VOTER or ADMIN)
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Role role;
 
-    // Indicates whether the voter has cast their vote
-    @Column(name = "is_voted")
-    private Boolean isVoted = false;
-
-    // Timestamp of when the account was created
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "home_address")
-    private String homeAddress;
+    @Column(nullable = false)
+    private Boolean deleted;
 
-    public User(String name, String email, String password, Role role, Boolean isVoted, String homeAddr) {
+    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    private RoleConfirmation confirmation;
+
+    public User(String name, String email, String password, Role role) {
         this.name = name;
         this.email = email;
         this.setPassword(password);
         this.role = role;
-        this.isVoted = isVoted;
-        this.homeAddress = homeAddr;
+        this.deleted = false;
+        confirmation= RoleConfirmation.PENDING;
+    }
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.setPassword(password);
+        role = Role.VOTER;
+        this.deleted = false;
+        confirmation= RoleConfirmation.PENDING;
     }
 
-    // Automatically set the creation timestamp before persisting
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -79,8 +82,6 @@ public class User {
     public String toString() {
         return String.format(
                 "User id=%s, name=%s, email=%s, password=%s, role=%s, isVoted=%s, homeAddress=%s",
-                id, name, email, password, role, isVoted, (homeAddress != null ? homeAddress.toString() : "No Address Provided")
-        );
+                id, name, email, password, role);
     }
-
 }
