@@ -1,6 +1,10 @@
 package mchiir.com.vote.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
@@ -12,12 +16,11 @@ import java.util.UUID;
  */
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"voter_id", "election_id"})
-})
+@Table(name = "votes")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter @Setter
 public class Vote {
-
-    // Unique identifier for the vote
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -26,27 +29,31 @@ public class Vote {
     // The voter who cast the vote
     @ManyToOne
     @JoinColumn(name = "voter_id", nullable = false)
-    private User voter;
+    private Voter voter;
 
-    // The election in which the vote was cast
-    @ManyToOne
-    @JoinColumn(name = "election_id", nullable = false)
-    private Election election;
-
-    // The candidate for whom the vote was cast
+    // The candidate that the voter voted for
     @ManyToOne
     @JoinColumn(name = "candidate_id", nullable = false)
     private Candidate candidate;
 
-    // Timestamp when the vote was cast
-    @Column(nullable = false)
-    private LocalDateTime timestamp;
+    // The election in which the vote is cast
+    @ManyToOne
+    @JoinColumn(name = "election_id", nullable = false)
+    private Election election;
 
-    // Automatically set the vote timestamp before persisting
+    // Timestamp when the vote was cast
+    @Column(name = "voted_at", nullable = false)
+    private LocalDateTime votedAt;
+
+    // Ensure that a voter can only vote once in an election
     @PrePersist
     protected void onCreate() {
-        timestamp = LocalDateTime.now();
+        votedAt = LocalDateTime.now();
     }
 
-    // Getters and setters (omitted for brevity)
+    @Override
+    public String toString() {
+        return String.format("Vote [id=%s, voter=%s, candidate=%s, election=%s, votedAt=%s]",
+                id, voter.getName(), candidate.getName(), election.getTitle(), votedAt);
+    }
 }
