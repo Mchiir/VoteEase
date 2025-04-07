@@ -6,10 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mchiir.com.vote.models.enums.Role;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -36,48 +36,36 @@ public class User {
     @Column(nullable = false, unique = false)
     private String email;// same email due to many elections with same participants
 
-    @Column(name = "password", nullable = false)
-    private String password;
-
     @Enumerated(EnumType.STRING)
     @Column(insertable = false, updatable = false) // 🛠️ Prevent duplicate column mapping
     private Role role;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Boolean deleted;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
-    private RoleConfirmation confirmation;
-
-    public User(String name, String email, String password, Role role) {
+    public User(String name, String email, Role role) {
         this.name = name;
         this.email = email;
-        setPassword(password);
         this.role = role;
         this.deleted = false;
-        confirmation= RoleConfirmation.PENDING;
     }
-    public User(String name, String email, String password) {
-        this(name, email, password, Role.VOTER);
+    public User(String name, String email) {
+        this(name, email,Role.VOTER);
     }
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
-
-    public void setPassword(String password) {
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt(10));
+        createdAt = new Date();
     }
 
     @Override
     public String toString() {
         return String.format(
-                "User id=%s, name=%s, email=%s, password=%s, role=%s, isVoted=%s, homeAddress=%s",
-                id, name, email, password, role);
+                "User id=%s, name=%s, email=%s, role=%s",
+                id, name, email, role);
     }
 }

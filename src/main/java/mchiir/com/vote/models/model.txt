@@ -1,0 +1,52 @@
+User:
+id
+name
+email
+password
+role
+createdAt
+deleted
+
+Candidate User:
+election
+party
+post
+votes
+
+Admin User:
+
+Voter User:
+election
+isConfirmed
+hasVoted
+
+Log:
+id
+user
+actionType
+details
+timestamp
+
+
+Election:
+id
+title
+desc
+startTime
+endTime
+candidates
+voters
+admin
+status
+
+Vote:
+id
+voter
+candidate
+election
+votedAt
+
+Voter User:
+election
+isConfirmed
+hasVoted

@@ -1,4 +1,4 @@
-package mchiir.com.vote.models;
+package mchiir.com.vote.models.enums;
 
 /**
  * Defines the roles available in the system:

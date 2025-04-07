@@ -1,13 +1,15 @@
-package mchiir.com.vote.models;
+package mchiir.com.vote.models.utils;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mchiir.com.vote.models.User;
+import mchiir.com.vote.models.enums.ActionType;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -15,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
-public class Log {  // or you can keep the name as AdminAction if preferred
+public class Log {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -24,21 +26,21 @@ public class Log {  // or you can keep the name as AdminAction if preferred
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;  // Admin who performed the action
+    private User user;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ActionType actionType;  // Type of action (e.g., "Created Election", "Confirmed Voter")
+    private ActionType actionType;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String details;  // Detailed information about the action
+    private String details;
 
     @Column(name = "timestamp", nullable = false)
-    private LocalDateTime timestamp;  // When the action was performed
+    private Date timestamp;
 
     @PrePersist
     protected void onCreate() {
-        timestamp = LocalDateTime.now();  // Automatically set the timestamp before saving
+        timestamp = new Date();
     }
 
     @Override

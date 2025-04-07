@@ -32,8 +32,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/").permitAll() // Requires authentication for Swagger docs
-                        .anyRequest().authenticated() // Allow other requests without authentication
+                        .requestMatchers("/").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults()) // Enables basic authentication
                 .csrf(csrf -> csrf.disable()); // CSRF disabled for simplicity
@@ -50,11 +50,10 @@ public class SecurityConfig {
             throw new IllegalArgumentException("Environment variables SPRING_SECURITY_USERNAME or SPRING_SECURITY_PASSWORD not set.");
         }
 
-        // Create a user with credentials from environment variables
         UserDetails user = User.builder()
-                .username(username) // Use the username from .env
-                .password(passwordEncoder().encode(password)) // Encode the password from .env
-                .roles("USER") // Assign roles as needed
+                .username(username)
+                .password(passwordEncoder().encode(password))
+                .roles("USER")
                 .build();
 
         return new InMemoryUserDetailsManager(user);

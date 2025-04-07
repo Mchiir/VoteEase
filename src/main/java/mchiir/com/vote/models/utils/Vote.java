@@ -1,10 +1,12 @@
-package mchiir.com.vote.models;
+package mchiir.com.vote.models.utils;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mchiir.com.vote.models.roles.Candidate;
+import mchiir.com.vote.models.roles.Voter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;

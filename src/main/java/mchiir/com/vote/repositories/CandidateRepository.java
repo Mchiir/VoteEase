@@ -1,6 +1,6 @@
 package mchiir.com.vote.repositories;
 
-import mchiir.com.vote.models.Candidate;
+import mchiir.com.vote.models.roles.Candidate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

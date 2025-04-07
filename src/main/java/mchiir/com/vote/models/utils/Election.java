@@ -1,13 +1,16 @@
-package mchiir.com.vote.models;
+package mchiir.com.vote.models.utils;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mchiir.com.vote.models.enums.ElectionStatus;
+import mchiir.com.vote.models.roles.Admin;
+import mchiir.com.vote.models.roles.Candidate;
+import mchiir.com.vote.models.roles.Voter;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -54,7 +57,7 @@ public class Election {
 
     @ManyToOne
     @JoinColumn(name = "admin_id")
-    private User admin;
+    private Admin guider;
 
     // Current status of the election (UPCOMING, ONGOING, CLOSED)
     @Enumerated(EnumType.STRING)
