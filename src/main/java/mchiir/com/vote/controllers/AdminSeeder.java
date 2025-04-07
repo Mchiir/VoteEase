@@ -1,4 +1,4 @@
-package mchiir.com.vote.services;
+package mchiir.com.vote.controllers;
 
 import mchiir.com.vote.models.roles.Admin;
 import mchiir.com.vote.models.enums.Role;
