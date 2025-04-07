@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
-public class Logs {  // or you can keep the name as AdminAction if preferred
+public class Log {  // or you can keep the name as AdminAction if preferred
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -23,8 +23,8 @@ public class Logs {  // or you can keep the name as AdminAction if preferred
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id", nullable = false)
-    private User admin;  // Admin who performed the action
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;  // Admin who performed the action
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -44,6 +44,6 @@ public class Logs {  // or you can keep the name as AdminAction if preferred
     @Override
     public String toString() {
         return String.format("AdminAction [id=%s, admin=%s, actionType=%s, timestamp=%s, details=%s]",
-                id, admin.getName(), actionType, timestamp, details);
+                id, user.getName(), actionType, timestamp, details);
     }
 }

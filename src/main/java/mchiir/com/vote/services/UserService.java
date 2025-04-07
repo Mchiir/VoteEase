@@ -1,7 +1,6 @@
 package mchiir.com.vote.services;
 
 import mchiir.com.vote.models.User;
-import mchiir.com.vote.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

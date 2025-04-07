@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "voters")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
@@ -21,5 +20,9 @@ public class Voter extends User {
 
     private Boolean confirmed; // Admin confirmation required
 
-    //getters & setters
+    public Voter(String name, String email, String password, Role role, Election election) {
+        super(name, email, password, role);
+        this.election = election;
+        this.confirmed = false;
+    }
 }

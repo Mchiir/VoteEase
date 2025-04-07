@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "candidates")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
@@ -31,5 +30,20 @@ public class Candidate extends User {
     @Column(nullable = true)
     private int votes = 0;
 
+    public Candidate(String name, String email, String password, Role role, Election election, String party, String post) {
+        super(name, email, password, role);
+        this.election = election;
+        this.party = party;
+        this.post = post;
+        this.votes = 0;
+    }
+
+    public Candidate(String name, String email, String password, Election election, String post) {
+        super(name, email, password);
+        this.election = election;
+        this.party = "";
+        this.post = post;
+        this.votes = 0;
+    }
     // Getters and setters (omitted for brevity)
 }

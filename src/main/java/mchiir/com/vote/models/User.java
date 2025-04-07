@@ -40,6 +40,7 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(insertable = false, updatable = false) // 🛠️ Prevent duplicate column mapping
     private Role role;
 
     @Column(name = "created_at")
@@ -48,25 +49,20 @@ public class User {
     @Column(nullable = false)
     private Boolean deleted;
 
-    @Column(nullable = true)
     @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
     private RoleConfirmation confirmation;
 
     public User(String name, String email, String password, Role role) {
         this.name = name;
         this.email = email;
-        this.setPassword(password);
+        setPassword(password);
         this.role = role;
         this.deleted = false;
         confirmation= RoleConfirmation.PENDING;
     }
     public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.setPassword(password);
-        role = Role.VOTER;
-        this.deleted = false;
-        confirmation= RoleConfirmation.PENDING;
+        this(name, email, password, Role.VOTER);
     }
 
     @PrePersist

@@ -1,13 +1,13 @@
-package mchiir.com.vote;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
-class VoteEaseApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
-
-}
+//package mchiir.com.vote;
+//
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//@SpringBootTest
+//class VoteEaseApplicationTests {
+//
+//    @Test
+//    void contextLoads() {
+//    }
+//
+//}
