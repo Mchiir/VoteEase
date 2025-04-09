@@ -4,6 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @SpringBootApplication
 public class VoteEaseApplication {
@@ -11,6 +13,11 @@ public class VoteEaseApplication {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+    @GetMapping("/")
+    public String home(Model model) {
+        model.addAttribute("message", "Welcome to the Online Voting System!");
+        return "home";
     }
 
     public static void main(String[] args) {

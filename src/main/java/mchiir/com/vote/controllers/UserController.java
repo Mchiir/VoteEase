@@ -4,6 +4,7 @@ import mchiir.com.vote.dtos.UserDTO;
 import mchiir.com.vote.models.User;
 import mchiir.com.vote.payloads.ApiResponse;
 import mchiir.com.vote.services.UserService;
+import mchiir.com.vote.services.impl.UserServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -22,7 +23,7 @@ public class UserController {
     private final UserService userService;
 
     public UserController(UserService userService) {
-        this.userService = userService;
+        this.userService =  userService;
     }
 
     // GET all users

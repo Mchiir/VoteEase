@@ -4,10 +4,12 @@ import mchiir.com.vote.models.User;
 import mchiir.com.vote.repositories.UserRepository;
 import mchiir.com.vote.services.UserService;
 import mchiir.com.vote.exceptions.ResourceNotFoundException; // Make sure this is imported
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
