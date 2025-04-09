@@ -36,7 +36,7 @@ public class Election {
     private String title;
 
     // Detailed description of the election
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", length = 255)
     private String description;
 
     // When voting starts

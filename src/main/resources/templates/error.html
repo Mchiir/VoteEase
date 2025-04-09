@@ -9,10 +9,8 @@
         body {
             background: linear-gradient(to right, #e0f7fa, #ffffff);
             font-family: 'Segoe UI', sans-serif;
-        }
-        .dashboard-card {
-            max-width: 500px;
-            width: 90%;
+            justify-content: center;
+            align-items: center;
         }
         footer {
             position: fixed;
@@ -27,17 +25,10 @@
         }
     </style>
 </head>
-<body class="d-flex flex-column justify-content-center align-items-center min-vh-100">
-
-<div class="dashboard-card bg-white shadow-lg rounded p-4 text-center">
-    <h1 class="text-primary fw-bold mb-3" th:text="${message}">Welcome to VoteEase</h1>
-    <p class="text-secondary mb-4">Create or join an election and make your voice count!</p>
-
-    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <a href="elections/new" class="btn btn-success px-4 me-sm-2">Create Election</a>
+<body class="">
+    <div>
+        <p class="text-" th:if="${message}" th:text="${message}"></p>
     </div>
-</div>
-
 <footer>
     &copy; 2025 @Mchiir. All rights reserved.
 </footer>
