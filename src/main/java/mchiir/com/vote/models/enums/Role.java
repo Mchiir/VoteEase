@@ -9,4 +9,5 @@ public enum Role {
     ADMIN,
     VOTER,
     CANDIDATE,
+    GUIDER
 }

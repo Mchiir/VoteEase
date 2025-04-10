@@ -19,7 +19,7 @@ public class VoteEaseApplication {
         return new ModelMapper();
     }
     @Controller
-    class Home{
+    static class Home {
         @GetMapping("/")
         public String home(Model model) {
             model.addAttribute("message", "Welcome to the Online Voting System!");

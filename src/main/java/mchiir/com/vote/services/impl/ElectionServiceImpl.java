@@ -1,7 +1,7 @@
 package mchiir.com.vote.services.impl;
 
 import mchiir.com.vote.exceptions.ResourceNotFoundException;
-import mchiir.com.vote.models.User;
+import mchiir.com.vote.models.roles.Guider;
 import mchiir.com.vote.models.utils.Election;
 import mchiir.com.vote.repositories.ElectionRepository;
 import mchiir.com.vote.services.ElectionService;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,6 +22,11 @@ public class ElectionServiceImpl implements ElectionService {
     @Override
     public List<Election> getAllElections() {
         return electionRepository.findAll();
+    }
+
+    @Override
+    public List<Election> getAllByGuider(Guider guider) {
+        return electionRepository.findAllByGuider(guider);
     }
 
     @Override

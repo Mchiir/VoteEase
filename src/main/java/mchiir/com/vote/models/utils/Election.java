@@ -8,6 +8,7 @@ import lombok.Setter;
 import mchiir.com.vote.models.enums.ElectionStatus;
 import mchiir.com.vote.models.roles.Admin;
 import mchiir.com.vote.models.roles.Candidate;
+import mchiir.com.vote.models.roles.Guider;
 import mchiir.com.vote.models.roles.Voter;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -56,8 +57,8 @@ public class Election {
     private List<Voter> voters;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin guider;
+    @JoinColumn(name = "guider_id")
+    private Guider guider;
 
     // Current status of the election (UPCOMING, ONGOING, CLOSED)
     @Enumerated(EnumType.STRING)

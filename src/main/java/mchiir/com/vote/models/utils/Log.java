@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mchiir.com.vote.models.User;
 import mchiir.com.vote.models.enums.ActionType;
-import org.hibernate.annotations.GenericGenerator;
-
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Table(name = "logs")
@@ -18,11 +15,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter @Setter
 public class Log {
-
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -35,13 +30,8 @@ public class Log {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String details;
 
-    @Column(name = "timestamp", nullable = false)
+    @Column(nullable = false)
     private Date timestamp;
-
-    @PrePersist
-    protected void onCreate() {
-        timestamp = new Date();
-    }
 
     @Override
     public String toString() {

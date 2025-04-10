@@ -1,9 +1,12 @@
 package mchiir.com.vote.services.impl;
 
 import mchiir.com.vote.models.User;
+import mchiir.com.vote.models.roles.Guider;
+import mchiir.com.vote.repositories.GuiderRepository;
 import mchiir.com.vote.repositories.UserRepository;
 import mchiir.com.vote.services.UserService;
 import mchiir.com.vote.exceptions.ResourceNotFoundException; // Make sure this is imported
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,10 +14,12 @@ import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+    @Autowired
     private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
+    @Autowired
+    private final GuiderRepository guiderRepository;
+    public UserServiceImpl(UserRepository userRepository, GuiderRepository guiderRepository) {
+        this.guiderRepository = guiderRepository;
         this.userRepository = userRepository;
     }
 
@@ -52,5 +57,15 @@ public class UserServiceImpl implements UserService {
     public User getUserById(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+    }
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Guider findByEmail(String email) {
+        return guiderRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
     }
 }

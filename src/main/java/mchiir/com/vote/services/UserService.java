@@ -1,6 +1,7 @@
 package mchiir.com.vote.services;
 
 import mchiir.com.vote.models.User;
+import mchiir.com.vote.models.roles.Guider;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,5 +18,8 @@ public interface UserService {
     void deleteUser(UUID id);
 
     User getUserById(UUID id);
-}
 
+    boolean existsByEmail(String email);
+
+    Guider findByEmail(String email);
+}

@@ -10,11 +10,11 @@
 
 <div class="container mt-5">
     <!-- Success or Error Message -->
-    <div class="alert alert-success" th:if="${message}" role="alert">
+    <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert">
         <p th:text="${message}"></p>
     </div>
 
-    <!-- Display the Created Election -->
+    <!-- Display the Created Elections -->
     <div class="card">
         <div class="card-header">
             <h3>Created Election Details</h3>
