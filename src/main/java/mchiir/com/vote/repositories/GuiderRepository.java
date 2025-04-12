@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface GuiderRepository extends JpaRepository<Guider, UUID> {
     Optional<Guider> findByEmail(String email);
+    Optional<Guider> findByName(String name);
 }

@@ -23,6 +23,7 @@ public class VoteEaseApplication {
         @GetMapping("/")
         public String home(Model model) {
             model.addAttribute("message", "Welcome to the Online Voting System!");
+            System.out.println("Context path URL.");
             return "home";
         }
     }

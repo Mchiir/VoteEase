@@ -64,8 +64,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByName(username);
+    }
+
+    @Override
     public Guider findByEmail(String email) {
         return guiderRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+    }
+
+    @Override
+    public Guider findByUsername(String username) {
+        return guiderRepository.findByName(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Guider", "name", username));
     }
 }

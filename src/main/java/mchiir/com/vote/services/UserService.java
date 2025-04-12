@@ -20,6 +20,8 @@ public interface UserService {
     User getUserById(UUID id);
 
     boolean existsByEmail(String email);
+    boolean existsByUsername(String username);
 
     Guider findByEmail(String email);
+    Guider findByUsername(String username);
 }

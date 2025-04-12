@@ -36,11 +36,9 @@ public class ElectionController {
     @GetMapping("/dashboard")
     public String dashboard(Model model, @AuthenticationPrincipal User user) {
         try {
-            if (user == null) {
-                return "redirect:/auth/login?error=true";
-            }
+            if (user == null) return "redirect:/auth/login?error=true";
 
-            Guider guider = userService.findByEmail(user.getUsername()); // use email to get Guider
+            Guider guider = userService.findByUsername(user.getUsername());
             List<Election> elections = electionService.getAllByGuider(guider);
 
             model.addAttribute("elections", elections);
