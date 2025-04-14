@@ -36,11 +36,11 @@ public class UserController {
         if (principal != null) return "redirect:/elections/dashboard";
 
         if (error != null) {
-            model.addAttribute("message", "Invalid username or password");
+            model.addAttribute("message", "Invalid email or password");
             model.addAttribute("messageType", "danger");
         } else if (logout != null) {
             model.addAttribute("message", "You have been logged out");
-            model.addAttribute("messageType", "success");
+            model.addAttribute("messageType", "alert");
         }
 
         model.addAttribute("userDTO", new UserDTO());

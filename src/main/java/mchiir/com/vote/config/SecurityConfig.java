@@ -14,16 +14,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/","/auth/login", "/auth/register", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/", "/auth/login", "/auth/register", "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/auth/login")
-                        .usernameParameter("username")
+                        .usernameParameter("email") // <-- use "email" if that's your login field
                         .passwordParameter("password")
                         .defaultSuccessUrl("/elections/dashboard", true)
                         .failureUrl("/auth/login?error=true")
@@ -36,18 +39,16 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
-                .csrf(csrf -> csrf.disable()); // Disable CSRF for simplicity, you can customize it too
+                .csrf(csrf -> csrf.disable());
 
         return http.build();
     }
-
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
 
     @Bean
     public UserDetailsService userDetailsService() {
         return userDetailsService;
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

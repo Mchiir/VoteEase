@@ -3,7 +3,6 @@ package mchiir.com.vote.config;
 import mchiir.com.vote.models.roles.Guider;
 import mchiir.com.vote.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,16 +15,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("Springsecurity passed Username : " + username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        System.out.println("Springsecurity passed Email : " + email);
 
-        mchiir.com.vote.models.User savedUser = userRepository.findByName(username)
-                            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        Guider savedGuider = (Guider) savedUser;
-        return User.builder()
-                .username(savedGuider.getName())
-                .password(savedGuider.getPassword())
-                .roles(savedGuider.getRole().name())
+        Guider guider = (Guider) userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Email not found or not a guider"));
+
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(guider.getName()) // or .getName() if required
+                .password(guider.getPassword())
+                .roles(guider.getRole().name())
                 .build();
     }
 }
