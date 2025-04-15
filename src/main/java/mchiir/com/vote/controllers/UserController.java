@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class UserController {
     @Autowired
     private ModelMapper modelMapper;
