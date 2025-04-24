@@ -54,7 +54,7 @@ public class User {
         this.deleted = false;
     }
     public User(String name, String email) {
-        this(name, email,Role.VOTER);
+        this(name, email,Role.Voter);
     }
 
     @PrePersist

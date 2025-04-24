@@ -2,9 +2,9 @@ package mchiir.com.vote.controllers;
 
 import mchiir.com.vote.models.roles.Admin;
 import mchiir.com.vote.models.enums.Role;
-import mchiir.com.vote.repositories.ElectionRepository;
-import mchiir.com.vote.repositories.UserRepository;
+import mchiir.com.vote.repositories.AdminRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AdminSeeder implements CommandLineRunner {
 
     @Autowired
-    private UserRepository adminRepository;
+    private AdminRepository adminRepository;
     @Autowired
-    private ElectionRepository electionRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -23,8 +23,8 @@ public class AdminSeeder implements CommandLineRunner {
             Admin admin = new Admin();
             admin.setName("admin");
             admin.setEmail("admin@example.com");
-            admin.setPassword("admin@123");
-            admin.setRole(Role.ADMIN);
+            admin.setPassword(passwordEncoder.encode("admin@123"));
+            admin.setRole(Role.Admin);
 
             adminRepository.save(admin);
             System.out.println("Admin account created successfully!\n"+ admin);

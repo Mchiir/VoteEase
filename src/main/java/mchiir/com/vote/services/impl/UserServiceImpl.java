@@ -18,6 +18,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     @Autowired
     private final GuiderRepository guiderRepository;
+
     public UserServiceImpl(UserRepository userRepository, GuiderRepository guiderRepository) {
         this.guiderRepository = guiderRepository;
         this.userRepository = userRepository;
@@ -31,6 +32,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) {
         return userRepository.save(user);
+    }
+
+    @Override
+    public Guider createUser(Guider guider) {
+        return guiderRepository.save(guider);
     }
 
     @Override
@@ -58,6 +64,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
+
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);

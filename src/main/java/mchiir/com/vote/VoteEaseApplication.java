@@ -18,6 +18,7 @@ public class VoteEaseApplication {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
     @Controller
     static class Home {
         @GetMapping("/")

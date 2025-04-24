@@ -6,8 +6,8 @@ package mchiir.com.vote.models.enums;
  * ADMIN - An administrator with elevated privileges.
  */
 public enum Role {
-    ADMIN,
-    VOTER,
-    CANDIDATE,
-    GUIDER
+    Admin,
+    Voter,
+    Candidate,
+    Guider
 }

@@ -54,16 +54,19 @@ public class DatabaseInitializer {
             END;
             $$ LANGUAGE plpgsql;
 
+            DROP TRIGGER IF EXISTS trg_user_create ON users;
             CREATE TRIGGER trg_user_create
             AFTER INSERT ON users
             FOR EACH ROW
             EXECUTE FUNCTION log_user_create();
 
+            DROP TRIGGER IF EXISTS trg_user_update ON users;
             CREATE TRIGGER trg_user_update
             AFTER UPDATE ON users
             FOR EACH ROW
             EXECUTE FUNCTION log_user_update();
 
+            DROP TRIGGER IF EXISTS trg_user_delete ON users;
             CREATE TRIGGER trg_user_delete
             BEFORE DELETE ON users
             FOR EACH ROW

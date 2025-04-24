@@ -2,27 +2,30 @@ package mchiir.com.vote.controllers;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import mchiir.com.vote.dtos.UserDTO;
-import mchiir.com.vote.models.User;
-import mchiir.com.vote.models.enums.Role;
 import mchiir.com.vote.models.roles.Guider;
+import mchiir.com.vote.repositories.GuiderRepository;
 import mchiir.com.vote.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
-
 @Controller
 @RequestMapping("/api/auth")
 public class UserController {
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    private final Dotenv dotenv;
+    @Autowired
     private ModelMapper modelMapper;
     @Autowired
     private final UserService userService;
-    private final Dotenv dotenv;
+    @Autowired
+    private GuiderRepository guiderRepository;
 
     public UserController(UserService userService) {
         this.userService =  userService;
@@ -30,13 +33,12 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login(Model model, Principal principal,
+    public String login(Model model,
                         @RequestParam(value = "error", required = false) String error,
+                        @RequestParam(value = "message", required = false) String message,
                         @RequestParam(value = "logout", required = false) String logout) {
-        if (principal != null) return "redirect:/elections/dashboard";
-
         if (error != null) {
-            model.addAttribute("message", "Invalid email or password");
+            model.addAttribute("message", message);
             model.addAttribute("messageType", "danger");
         } else if (logout != null) {
             model.addAttribute("message", "You have been logged out");
@@ -52,31 +54,18 @@ public class UserController {
         model.addAttribute("userDTO", new UserDTO());
         return "user/register";
     }
-    @PostMapping("/register")
-    public String register(@RequestParam String name,
-                           @RequestParam String email,
-                           @RequestParam String password,
-                           @RequestParam("confirmPassword") String confirmPassword,
-                           RedirectAttributes redirectAttributes,
+    @PostMapping(value = "/register")
+    public String register(
+            @ModelAttribute Guider guider,
+            RedirectAttributes redirectAttributes,
                            Model model) {
         try {
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                throw new IllegalArgumentException("All fields must be filled.");
-                }
-            if (!password.equals(confirmPassword))
-                throw new IllegalArgumentException("Passwords do not match.");
-            // Check if user already exists (optional)
-            if(userService.existsByUsername(name))
-                throw new IllegalArgumentException("Username already exists.");
-            if (userService.existsByEmail(email))
-                throw new IllegalArgumentException("Email already registered.");
-
-            User newUser = new Guider(name, email, Role.GUIDER, password);
-            userService.createUser(newUser);
+            guider.setPassword(passwordEncoder.encode(guider.getPassword()));
+            userService.createUser(guider);
 
             redirectAttributes.addFlashAttribute("message", "Registration successful. Please log in.");
             redirectAttributes.addFlashAttribute("messageType", "success");
-            return "redirect:/auth/login";
+            return "redirect:/api/auth/login";
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
             model.addAttribute("messageType", "danger");

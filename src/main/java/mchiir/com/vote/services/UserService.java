@@ -12,6 +12,7 @@ public interface UserService {
     List<User> getAllUsers();
 
     User createUser(User user);
+    Guider createUser(Guider guider);
 
     User updateUser(UUID id, User user);
 
