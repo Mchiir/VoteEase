@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mchiir.com.vote.models.enums.ElectionStatus;
-import mchiir.com.vote.models.roles.Admin;
 import mchiir.com.vote.models.roles.Candidate;
 import mchiir.com.vote.models.roles.Guider;
 import mchiir.com.vote.models.roles.Voter;
@@ -64,6 +63,9 @@ public class Election {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ElectionStatus status = ElectionStatus.UPCOMING;
+
+    private String formatedStartTime;
+    private String formatedEndTime;
 
     // Getters and setters
 }

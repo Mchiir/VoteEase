@@ -1,37 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Election Dashboard</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <!-- Success or Error Message -->
     <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert">
         <p th:text="${message}"></p>
     </div>
 
     <!-- Display the Created Elections -->
-    <div class="card">
-        <div class="card-header">
-            <h3>Created Election Details</h3>
+    <div class="card mb-4" th:each="election : ${elections}">
+        <!-- Row 1: Header -->
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0" th:text="${election.title}">Election Title</h5>
+            <form th:action="@{/elections/change-status}" method="post">
+                <input type="hidden" name="electionId" th:value="${election.id}" />
+                <button type="submit"
+                        class="btn"
+                        th:classappend="${election.status.name() == 'ONGOING'} ? 'btn-danger' : 'btn-success'"
+                        th:text="${election.status.name() == 'ONGOING'} ? 'End Election' : 'Start Election'"
+                        th:disabled="${election.status.name() == 'CLOSED'}">
+                </button>
+            </form>
         </div>
+
+        <!-- Row 2: Description -->
         <div class="card-body">
-            <h5 class="card-title">Election: <span th:text="${electionDTO.title}"></span></h5>
-            <p class="card-text"><strong>Description:</strong> <span th:text="${electionDTO.description}"></span></p>
-            <p class="card-text"><strong>Start Time:</strong> <span th:text="${formattedStartTime}"></span></p>
-            <p class="card-text"><strong>End Time:</strong> <span th:text="${formattedEndTime}"></span></p>
+            <p><strong>Description:</strong> <span th:text="${election.description}"></span></p>
+        </div>
+
+        <!-- Row 3: Times and Add Candidates -->
+        <div class="card-footer d-flex justify-content-between flex-wrap">
+            <div class="d-flex gap-3 flex-row align-items-center">
+                <span><strong>From </strong> <span th:text="${election.formatedStartTime}"></span></span><br>
+                <span><strong> To </strong> <span th:text="${election.formatedEndTime}"></span></span>
+            </div>
+            <div>
+                <a class="btn btn-primary" th:href="@{/candidates/add(electionId=${election.id})}">Add Candidates</a>
+            </div>
         </div>
     </div>
 
-    <!-- Optionally, you can add a link or button to return to the election creation page -->
+    <!-- Link to create new election -->
     <div class="mt-4">
         <a href="/api/elections/create" class="btn btn-primary">Create Another Election</a>
     </div>
 </div>
+
+<footer>
+    &copy; 2025 @Mchiir. All rights reserved.
+</footer>
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>

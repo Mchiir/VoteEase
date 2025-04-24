@@ -53,7 +53,16 @@ public class SecurityConfig {
                     httpForm.defaultSuccessUrl("/api/elections/dashboard");
                     httpForm.usernameParameter("email");
                     httpForm.passwordParameter("password");
+                    httpForm.failureUrl("/api/auth/login?error=true&message=Please provide correct cridentials");
                 })
+                .logout(logout -> logout
+                        .logoutUrl("/api/auth/logout")
+                        .logoutSuccessUrl("/api/auth/login")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .clearAuthentication(true)
+                        .permitAll()
+                )
 
                 .authorizeHttpRequests(registry ->{
                     registry.requestMatchers("/api/auth/**","/css/**","/js/**", "/").permitAll();

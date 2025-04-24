@@ -6,7 +6,7 @@
     <title>Create Election</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <style>
-            footer {
+        footer {
             position: fixed;
             bottom: 0;
             left: 0;
@@ -16,7 +16,7 @@
             padding: 0.5rem 0;
             font-size: 0.9rem;
             color: #6c757d;
-            }
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -29,7 +29,7 @@
                     <h4 class="mb-0">New Election</h4>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/elections/create}" th:object="${electionDTO}" method="post">
+                    <form th:action="@{/api/elections/create}" th:object="${electionDTO}" method="post">
                         <div class="mb-3">
                             <label for="title" class="form-label">Election Title</label>
                             <input type="text" th:field="*{title}" class="form-control" id="title" placeholder="e.g. Student Council 2025" required>

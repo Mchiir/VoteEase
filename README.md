@@ -16,7 +16,7 @@ VoteEase is a secure and scalable online voting system backend built with **Spri
 ### **Backend**
 
 - **Spring Boot** - Core backend framework
-- **Spring Security & JWT** - Secure authentication & authorization
+- **Spring Security & Session** - Secure authentication & authorization
 - **Spring Data JPA (Hibernate)** - ORM for database interactions
 - **PostgreSQL** - Relational database for storing votes & users
 - **WebSockets** - Real-time vote updates
@@ -27,6 +27,11 @@ VoteEase is a secure and scalable online voting system backend built with **Spri
 - Java 17+
 - Maven
 - PostgreSQL
+
+## Resources used
+
+- [Spring security](https://www.youtube.com/watch?v=X7pGCmVxx10&t=689s)
+-
 
 ## 📜 License
 

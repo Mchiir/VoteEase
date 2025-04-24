@@ -31,12 +31,12 @@ public class ElectionServiceImpl implements ElectionService {
 
     @Override
     public void createElection(Election election) {
-        if (election.getStartTime().after(election.getEndTime())) {
-            throw new IllegalArgumentException("Start time cannot be after end time.");
-        }
-        if(election.getStartTime().before(new Date()) || election.getEndTime().before(new Date())) {
-            throw new IllegalArgumentException("Start or end time cannot be past time.");
-        }
+//        if (election.getStartTime().after(election.getEndTime())) {
+//            throw new IllegalArgumentException("Start time cannot be after end time.");
+//        }
+//        if(election.getStartTime().before(new Date()) || election.getEndTime().before(new Date())) {
+//            throw new IllegalArgumentException("Start or end time cannot be past time.");
+//        }
         electionRepository.save(election);
     }
 

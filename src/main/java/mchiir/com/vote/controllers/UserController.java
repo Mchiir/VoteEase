@@ -1,12 +1,14 @@
 package mchiir.com.vote.controllers;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import lombok.AllArgsConstructor;
 import mchiir.com.vote.dtos.UserDTO;
 import mchiir.com.vote.models.roles.Guider;
 import mchiir.com.vote.repositories.GuiderRepository;
 import mchiir.com.vote.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,17 +37,25 @@ public class UserController {
     @GetMapping("/login")
     public String login(Model model,
                         @RequestParam(value = "error", required = false) String error,
-                        @RequestParam(value = "message", required = false) String message,
-                        @RequestParam(value = "logout", required = false) String logout) {
+                        @RequestParam(value = "message", required = false) String message) {
         if (error != null) {
             model.addAttribute("message", message);
             model.addAttribute("messageType", "danger");
-        } else if (logout != null) {
-            model.addAttribute("message", "You have been logged out");
-            model.addAttribute("messageType", "alert");
         }
 
         model.addAttribute("userDTO", new UserDTO());
+        return "user/login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(Model model, Authentication authentication) {
+        if (authentication == null) {
+            return "redirect:/api/auth/login?error=true&message=You're not logged in in yet";
+        }
+
+        model.addAttribute("message", "You have been logged out!");
+        model.addAttribute("messageType", "info");
+
         return "user/login";
     }
 
