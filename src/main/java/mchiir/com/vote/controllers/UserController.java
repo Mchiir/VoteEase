@@ -36,11 +36,12 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(Model model,
-                        @RequestParam(value = "error", required = false) String error,
+                        @RequestParam(value = "error", required = false) boolean error,
+                        @RequestParam(value = "messageType", required = false) String messageType,
                         @RequestParam(value = "message", required = false) String message) {
-        if (error != null) {
+        if (error) {
             model.addAttribute("message", message);
-            model.addAttribute("messageType", "danger");
+            model.addAttribute("messageType", (messageType != null) ? messageType : "danger");
         }
 
         model.addAttribute("userDTO", new UserDTO());

@@ -25,30 +25,26 @@ import java.util.UUID;
 @Getter @Setter
 public class Election {
 
-    // Unique identifier for the election
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    // Name of the election (e.g., "Student Council Elections 2024")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String title;
 
-    // Detailed description of the election
-    @Column(columnDefinition = "TEXT", length = 255)
+    @Column(columnDefinition = "TEXT", length = 255, nullable = false)
     private String description;
 
-    @Column(name = "otc", unique = true, nullable = true, length = 7)
+    @Column(name = "otc", unique = true, length = 7)
     private String otc;
 
-    // When voting starts
-    @Column(name = "start_time", nullable = false)
+    @Column(name = "start_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date startTime;
 
     // When voting ends
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endTime;
 
@@ -71,4 +67,10 @@ public class Election {
 
     private String formatedStartTime;
     private String formatedEndTime;
+
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = false;  // Default to false (not deleted)
+
+    public boolean getIsDeleted() { return isDeleted; }
+    public void setDeleted(boolean isDeleted) { this.isDeleted = isDeleted; }
 }

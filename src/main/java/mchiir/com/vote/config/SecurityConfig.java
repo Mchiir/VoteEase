@@ -63,11 +63,12 @@ public class SecurityConfig {
                         .clearAuthentication(true)
                         .permitAll()
                 )
-
                 .authorizeHttpRequests(registry ->{
                     registry.requestMatchers("/api/auth/**","/css/**","/js/**", "/").permitAll();
                     registry.anyRequest().authenticated();
                 })
+                .exceptionHandling(exceptions -> exceptions
+                        .accessDeniedPage("/api/auth/login?error=true&message=You need to log in first"))
                 .build();
     }
 }

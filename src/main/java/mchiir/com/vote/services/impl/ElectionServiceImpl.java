@@ -7,7 +7,6 @@ import mchiir.com.vote.repositories.ElectionRepository;
 import mchiir.com.vote.services.ElectionService;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -32,12 +31,6 @@ public class ElectionServiceImpl implements ElectionService {
 
     @Override
     public void createElection(Election election) {
-//        if (election.getStartTime().after(election.getEndTime())) {
-//            throw new IllegalArgumentException("Start time cannot be after end time.");
-//        }
-//        if(election.getStartTime().before(new Date()) || election.getEndTime().before(new Date())) {
-//            throw new IllegalArgumentException("Start or end time cannot be past time.");
-//        }
         electionRepository.save(election);
     }
 
@@ -51,6 +44,7 @@ public class ElectionServiceImpl implements ElectionService {
         existingElection.setStartTime(election.getStartTime());
         existingElection.setEndTime(election.getEndTime());
         existingElection.setStatus(election.getStatus());
+        existingElection.setDeleted(election.getIsDeleted());
         return electionRepository.save(existingElection);
     }
 

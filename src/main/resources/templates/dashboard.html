@@ -20,6 +20,17 @@
             font-size: 0.9rem;
             color: #6c757d;
         }
+
+        .btn-black {
+            background-color: black; /* Black background */
+            border-color: black; /* Matching border */
+            color: white; /* White text */
+        }
+
+        .btn-black:hover {
+            background-color: #333; /* Dark grey for hover effect */
+            border-color: #333;
+        }
     </style>
 </head>
 <body>
@@ -48,6 +59,13 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0" th:text="${election.title}">Election Title</h5>
 
+            <!-- DELETING election -->
+            <form th:if="${election.isDeleted == false}"
+                  th:action="@{/api/elections/delete_election}" method="post">
+                <input type="hidden" name="electionId" th:value="${election.id}">
+                <button type="submit" class="btn btn-danger">Delete Election</button>
+            </form>
+
             <!-- UPCOMING -->
             <form th:if="${election.status.name() == 'UPCOMING'}"
                   th:action="@{/api/elections/start_election}" method="post">
@@ -59,7 +77,7 @@
             <form th:if="${election.status.name() == 'ONGOING'}"
                   th:action="@{/api/elections/end_election}" method="post">
                 <input type="hidden" name="electionId" th:value="${election.id}">
-                <button type="submit" class="btn btn-danger">End Election</button>
+                <button type="submit" class="btn btn-black">End Election</button>
             </form>
 
             <!-- CLOSED -->
@@ -76,25 +94,66 @@
 
         <div class="card-footer d-flex justify-content-between flex-wrap">
             <div class="d-flex gap-3 flex-row align-items-center">
-                <span><strong>From</strong> <span th:text="${election.formatedStartTime}"></span></span><br>
-                <span><strong>To</strong> <span th:text="${election.formatedEndTime}"></span></span>
+                <span th:if="${election.formatedStartTime != null}">
+                    <strong>Starting time:</strong>
+                    <span th:text="${election.formatedStartTime}"></span>
+                </span>
+                            <span th:if="${election.formatedEndTime != null}">
+                    <strong>End time:</strong>
+                    <span th:text="${election.formatedEndTime}"></span>
+                </span>
             </div>
             <div>
                 <a class="btn btn-primary" th:href="@{/api/candidate/add(electionId=${election.id})}">Add Candidates</a>
+                <!-- View Election Code Button -->
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#electionCodeModal"
+                        th:data-eid="${election.id}" th:data-code="${election.otc}" th:if="${election.otc != null and election.otc != ''}">
+                    View Election Code
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Link to create new election -->
     <div class="mt-4">
-        <a href="/api/elections/create" class="btn btn-primary">Create Another Election</a>
+        <a href="/api/elections/create" class="btn btn-primary">Create new election</a>
     </div>
+</div>
+
+<!-- Election Code Modal -->
+        <div class="modal fade" id="electionCodeModal" tabindex="-1" aria-labelledby="electionCodeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="electionCodeModalLabel">Election Code</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Election Code: </strong><span id="electionCode"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+            </div>
+        </div>
 </div>
 
 <footer>
     &copy; 2025 @Mchiir. All rights reserved.
 </footer>
 
+<script>
+    // JavaScript to dynamically update the election code in the modal
+    var electionCodeModal = document.getElementById('electionCodeModal');
+    electionCodeModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget; // Button that triggered the modal
+        var electionId = button.getAttribute('data-eid'); // Extract election ID
+        var electionCode = button.getAttribute('data-code'); // Extract election code
+
+        var modalCode = electionCodeModal.querySelector('#electionCode');
+        modalCode.textContent = electionCode; // Set the election code in the modal
+    });
+</script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
