@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -65,5 +66,17 @@ public class ElectionServiceImpl implements ElectionService {
     public Election getElectionById(UUID id) {
         return electionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Election", "id", id));
+    }
+
+    @Override
+    public String generateOtc(){
+        String otc;
+        do {
+            Random random = new Random();
+            int part1 = random.nextInt(1000); // 000 to 999
+            int part2 = random.nextInt(1000);
+            otc =  String.format("%03d-%03d", part1, part2); // e.g., 034-234
+        } while (electionRepository.existsByOtc(otc)); // Check uniqueness
+        return otc;
     }
 }

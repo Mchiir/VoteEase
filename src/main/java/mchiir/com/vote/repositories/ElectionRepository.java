@@ -11,4 +11,5 @@ import java.util.UUID;
 @Repository
 public interface ElectionRepository extends JpaRepository<Election, UUID> {
     List<Election> findAllByGuider(Guider guider);
+    boolean existsByOtc(String otc);
 }

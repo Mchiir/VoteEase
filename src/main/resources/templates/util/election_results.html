@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Election Results</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body class="container mt-5">
+
+<h2 class="text-primary">Results for <span th:text="${election.title}"></span></h2>
+
+<div class="my-4">
+    <h4 class="text-info">Election Results</h4>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Candidate</th>
+            <th>Votes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="result : ${results}">
+            <td th:text="${result.candidateName}"></td>
+            <td th:text="${result.voteCount}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<a th:href="@{/api/elections/dashboard}" class="btn btn-secondary mt-4">Back to Dashboard</a>
+
+</body>
+</html>

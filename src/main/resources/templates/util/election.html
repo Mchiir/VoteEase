@@ -29,6 +29,18 @@
                     <h4 class="mb-0">New Election</h4>
                 </div>
                 <div class="card-body">
+
+                    <!-- Navigation Buttons -->
+                    <div class="d-flex justify-content-between mb-4">
+                        <a href="/" class="btn btn-outline-secondary">
+                            &larr; Home
+                        </a>
+                        <a href="/api/elections/dashboard" class="btn btn-outline-primary">
+                            Elections &rarr;
+                        </a>
+                    </div>
+
+                    <!-- Election Form -->
                     <form th:action="@{/api/elections/create}" th:object="${electionDTO}" method="post">
                         <div class="mb-3">
                             <label for="title" class="form-label">Election Title</label>
@@ -40,24 +52,13 @@
                             <textarea th:field="*{description}" class="form-control" id="description" rows="3" required></textarea>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="startTime" class="form-label">Start Time</label>
-                                <input type="datetime-local" th:field="*{startTime}" class="form-control" id="startTime" required>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="endTime" class="form-label">End Time</label>
-                                <input type="datetime-local" th:field="*{endTime}" class="form-control" id="endTime" required>
-                            </div>
-                        </div>
-
                         <div class="d-grid">
                             <button type="submit" class="btn btn-success">Create Election</button>
                         </div>
 
-                        <p class="text-danger" th:if="${message}" th:text="${message}"></p>
+                        <p class="text-danger mt-3" th:if="${message}" th:text="${message}"></p>
                     </form>
+
                 </div>
             </div>
         </div>

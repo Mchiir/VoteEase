@@ -5,15 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Voting Dashboard</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap-icons.css}" rel="stylesheet">
     <style>
         body {
             background: linear-gradient(to right, #e0f7fa, #ffffff);
             font-family: 'Segoe UI', sans-serif;
         }
+
+        header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #007bff;
+        }
+
+        .message-container {
+            min-height: 3rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .dashboard-card {
             max-width: 500px;
             width: 90%;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
         }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-success:hover, .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        .input-group input {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        .input-group .btn {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
         footer {
             position: fixed;
             bottom: 0;
@@ -21,25 +70,46 @@
             width: 100%;
             background-color: #f8f9fa;
             text-align: center;
-            padding: 0.5rem 0;
+            padding: 0.6rem 0;
             font-size: 0.9rem;
             color: #6c757d;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
         }
     </style>
 </head>
 <body class="d-flex flex-column justify-content-center align-items-center min-vh-100">
 
-<div class="dashboard-card bg-white shadow-lg rounded p-4 text-center">
-    <h1 class="text-primary fw-bold mb-3" th:text="${message}">Welcome to VoteEase</h1>
+<header>
+    <h1>Welcome to <span class="text-primary">VoteEase</span></h1>
+</header>
+
+<!-- Message Area -->
+<div class="message-container">
+    <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert" th:text="${message}"></div>
+</div>
+
+<!-- Dashboard Card -->
+<div class="dashboard-card text-center">
     <p class="text-secondary mb-4">Create or join an election and make your voice count!</p>
 
-    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <a href="/api/elections/create" class="btn btn-success px-4 me-sm-2">Create Election</a>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-3">
+        <a href="/api/elections/create" class="btn btn-success px-4 me-sm-2">
+            <i class="bi bi-plus-circle me-1"></i>Create a new election
+        </a>
     </div>
+
+    <form action="/api/elections/join" method="get">
+        <div class="input-group">
+            <input type="text" name="otc" class="form-control shadow-sm" placeholder="Enter Election code xxx-xxx" required>
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-box-arrow-in-right me-1"></i>Vote Now
+            </button>
+        </div>
+    </form>
 </div>
 
 <footer>
-    &copy; 2025 @Mchiir. All rights reserved.
+    &copy; 2025 <strong>@Mchiir</strong>. All rights reserved.
 </footer>
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>

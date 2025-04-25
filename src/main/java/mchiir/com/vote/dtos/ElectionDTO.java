@@ -24,6 +24,8 @@ public class ElectionDTO implements Serializable {
     @Future(message = "End time must be in the future")
     private Date endTime;
 
+    private String otc;
+
 //    @AssertTrue(message = "End time must be after start time")
 //    public boolean isEndTimeAfterStartTime() {
 //        return startTime != null && endTime != null && endTime.after(startTime);

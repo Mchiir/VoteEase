@@ -29,7 +29,7 @@ public class Voter extends User {
     public Voter(String name, String email, Role role, Election election) {
         super(name, email, role);
         this.election = election;
-        this.isConfirmed = RoleConfirmation.PENDING;
+        this.isConfirmed = RoleConfirmation.CONFIRMED;
         this.hasVoted = false;
     }
 }

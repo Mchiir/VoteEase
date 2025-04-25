@@ -28,8 +28,8 @@ public class Candidate extends User {
     @Column(nullable = true)
     private int votes = 0;
 
-    public Candidate(String name, String email, Role role, Election election, String party, String post) {
-        super(name, email, role);
+    public Candidate(String name, String email, Election election, String party, String post) {
+        super(name, email, Role.Candidate);
         this.election = election;
         this.party = party;
         this.post = post;
@@ -37,11 +37,10 @@ public class Candidate extends User {
     }
 
     public Candidate(String name, String email, Election election, String post) {
-        super(name, email);
+        super(name, email, Role.Candidate);
         this.election = election;
         this.party = "";
         this.post = post;
         this.votes = 0;
     }
-    // Getters and setters (omitted for brevity)
 }

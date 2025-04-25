@@ -39,6 +39,9 @@ public class Election {
     @Column(columnDefinition = "TEXT", length = 255)
     private String description;
 
+    @Column(name = "otc", unique = true, nullable = true, length = 7)
+    private String otc;
+
     // When voting starts
     @Column(name = "start_time", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -51,6 +54,8 @@ public class Election {
 
     @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
     private List<Candidate> candidates;
+
+
 
     @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
     private List<Voter> voters;
@@ -66,6 +71,4 @@ public class Election {
 
     private String formatedStartTime;
     private String formatedEndTime;
-
-    // Getters and setters
 }

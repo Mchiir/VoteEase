@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Candidates Management</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #e0f7fa, #ffffff);
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .dashboard-card {
+            max-width: 500px;
+            width: 90%;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body class="container my-5">
+
+<h2 class="mb-4 text-primary">Manage Candidates</h2>
+
+<!-- Table of Candidates -->
+<div class="mb-5">
+    <h4>Existing Candidates</h4>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Party</th>
+            <th>Post</th>
+            <th>Election</th>
+            <th>Votes</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="candidate : ${candidates}">
+            <td th:text="${candidate.name}">Name</td>
+            <td th:text="${candidate.email}">Email</td>
+            <td th:text="${candidate.party}">Party</td>
+            <td th:text="${candidate.post}">Post</td>
+            <td th:text="${candidate.election.title}">Election</td>
+            <td th:text="${candidate.votes}">0</td>
+            <td>
+                <a th:href="@{'/api/candidate/edit/' + ${candidate.id}}" class="btn btn-sm btn-primary">Edit</a>
+                <a th:href="@{'/api/candidate/delete/' + ${candidate.id}}" class="btn btn-sm btn-danger"
+                   onclick="return confirm('Are you sure you want to delete this candidate?')">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+    <!-- Add Candidate Form -->
+    <div class="card p-4 shadow dashboard-card mx-auto">
+        <h4 class="mb-3 text-center text-success">Add New Candidate</h4>
+        <form th:action="@{/api/candidate/add}" method="post">
+            <div class="row mb-3">
+                <div class="col">
+                    <input type="text" name="name" class="form-control" placeholder="Candidate Name"
+                           th:value="${candidateForm?.name}" required>
+                </div>
+                <div class="col">
+                    <input type="email" name="email" class="form-control" placeholder="Email"
+                           th:value="${candidateForm?.email}" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <input type="text" name="party" class="form-control" placeholder="Party (Optional)"
+                           th:value="${candidateForm?.party}">
+                </div>
+                <div class="col">
+                    <input type="text" name="post" class="form-control" placeholder="Post (e.g. President)"
+                           th:value="${candidateForm?.post}" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <select class="form-select" name="electionId" required>
+                    <option disabled selected>Select Election</option>
+                    <option th:each="e : ${elections}"
+                            th:value="${e.id}"
+                            th:text="${e.title}">
+                    </option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Add Candidate</button>
+        </form>
+    </div>
+
+<footer>
+    &copy; 2025 @Mchiir. All rights reserved.
+</footer>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

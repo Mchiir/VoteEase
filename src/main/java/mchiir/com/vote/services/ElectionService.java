@@ -19,4 +19,5 @@ public interface ElectionService {
     void deleteElection(UUID id);
 
     Election getElectionById(UUID id);
+    String generateOtc();
 }
