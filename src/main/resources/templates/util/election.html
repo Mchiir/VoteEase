@@ -5,19 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Election</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <style>
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #f8f9fa;
-            text-align: center;
-            padding: 0.5rem 0;
-            font-size: 0.9rem;
-            color: #6c757d;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body class="bg-light">
 
@@ -32,10 +20,10 @@
 
                     <!-- Navigation Buttons -->
                     <div class="d-flex justify-content-between mb-4">
-                        <a href="/" class="btn btn-outline-secondary">
+                        <a href="/" class="btn btn-custom">
                             &larr; Home
                         </a>
-                        <a href="/api/elections/dashboard" class="btn btn-outline-primary">
+                        <a href="/api/elections/dashboard" class="btn btn-custom">
                             Elections &rarr;
                         </a>
                     </div>

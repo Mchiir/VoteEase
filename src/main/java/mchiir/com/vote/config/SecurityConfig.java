@@ -50,10 +50,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(httpForm -> {
                     httpForm.loginPage("/api/auth/login").permitAll();
-                    httpForm.defaultSuccessUrl("/api/elections/dashboard");
+                    httpForm.defaultSuccessUrl("/api/elections/dashboard", true);
                     httpForm.usernameParameter("email");
                     httpForm.passwordParameter("password");
                     httpForm.failureUrl("/api/auth/login?error=true&message=Please provide correct cridentials");
+                    httpForm.permitAll();
                 })
                 .logout(logout -> logout
                         .logoutUrl("/api/auth/logout")

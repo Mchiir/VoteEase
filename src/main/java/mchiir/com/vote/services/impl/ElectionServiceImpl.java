@@ -6,6 +6,7 @@ import mchiir.com.vote.models.utils.Election;
 import mchiir.com.vote.repositories.ElectionRepository;
 import mchiir.com.vote.services.ElectionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Random;
@@ -35,16 +36,19 @@ public class ElectionServiceImpl implements ElectionService {
     }
 
     @Override
+    @Transactional
     public Election updateElection(UUID id, Election election) {
         Election existingElection = electionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Election", "id", id));
 
+        // Only update modifiable fields (defensive copy)
         existingElection.setTitle(election.getTitle());
         existingElection.setDescription(election.getDescription());
         existingElection.setStartTime(election.getStartTime());
         existingElection.setEndTime(election.getEndTime());
         existingElection.setStatus(election.getStatus());
-        existingElection.setDeleted(election.getIsDeleted());
+        existingElection.setIsHidden(election.getIsHidden());
+
         return electionRepository.save(existingElection);
     }
 

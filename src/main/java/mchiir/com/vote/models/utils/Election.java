@@ -68,9 +68,9 @@ public class Election {
     private String formatedStartTime;
     private String formatedEndTime;
 
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted = false;  // Default to false (not deleted)
+    @Column(name = "is_hidden", nullable = false)
+    private boolean isHidden = false;  // Default to false (not deleted)
 
-    public boolean getIsDeleted() { return isDeleted; }
-    public void setDeleted(boolean isDeleted) { this.isDeleted = isDeleted; }
+    public boolean getIsHidden() { return isHidden; }
+    public void setIsHidden(boolean isHidden) { this.isHidden = isHidden; }
 }

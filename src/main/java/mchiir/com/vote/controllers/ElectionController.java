@@ -49,12 +49,6 @@ public class ElectionController {
         try {
             List<Election> elections = electionService.getAllByGuider(guider);
 
-            if(elections.isEmpty()){
-                model.addAttribute("message", "No Elections created yet.");
-                model.addAttribute("messageType", "info");
-                return "dashboard";
-            }
-
             // Sort by startTime descending
             elections.sort((e1, e2) -> {
                 // Handle null cases first
@@ -80,9 +74,11 @@ public class ElectionController {
                 }
             });
 
-            elections = elections.stream()
-                    .filter(election -> !election.getIsDeleted())
-                    .collect(Collectors.toList());
+            if(elections.isEmpty()){
+                model.addAttribute("message", "No visible Elections.");
+                model.addAttribute("messageType", "info");
+                return "dashboard";
+            }
 
             model.addAttribute("elections", elections);
             model.addAttribute("message", model.containsAttribute("message") ?
@@ -200,22 +196,22 @@ public class ElectionController {
         return "util/election_results";  // View to display results
     }
 
-    @PostMapping("/delete_election")
+    @PostMapping("/toggle_election_hide")
     public String deleteElection(@RequestParam("electionId") UUID electionId,
                                  RedirectAttributes redirectAttributes) {
         try {
             Election election = electionService.getElectionById(electionId);
-            if (election != null && !election.getIsDeleted()) {
-                election.setDeleted(true);
+            if (election != null && !election.getIsHidden()) {
+                election.setIsHidden(!election.getIsHidden());
                 electionService.updateElection(electionId, election);
-                redirectAttributes.addFlashAttribute("message", "Election deleted successfully.");
-                redirectAttributes.addFlashAttribute("messageType", "success");
+//                redirectAttributes.addFlashAttribute("message", "Election hidden successfully.");
+//                redirectAttributes.addFlashAttribute("messageType", "success");
             } else {
-                redirectAttributes.addFlashAttribute("message", "Election not found or already deleted.");
+                redirectAttributes.addFlashAttribute("message", "Election not found or already hidden.");
                 redirectAttributes.addFlashAttribute("messageType", "warning");
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("message", "Failed to delete election.");
+            redirectAttributes.addFlashAttribute("message", "Failed to hide the election.");
             redirectAttributes.addFlashAttribute("messageType", "danger");
         }
         return "redirect:/api/elections/dashboard";
