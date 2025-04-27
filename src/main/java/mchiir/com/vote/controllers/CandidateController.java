@@ -30,11 +30,12 @@ public class CandidateController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @PostMapping("/")
+    @GetMapping("/{electionId}")
     public String showCandidateManagement(
-            @RequestParam(required = false) String electionId,
+            @PathVariable("electionId") String electionId,
             @RequestParam(required = false) String message,
             @RequestParam(required = false, defaultValue = "info") String messageType,
+            RedirectAttributes redirectAttributes,
             Model model) {
 
         model.addAttribute("candidateDTO", new CandidateDTO());
@@ -44,16 +45,18 @@ public class CandidateController {
                 UUID uuid = UUID.fromString(electionId);
                 Election election = electionService.getElectionById(uuid);
                 List<Candidate> candidates = candidateService.getCandidatesByElection(election);
+
                 model.addAttribute("candidates", candidates);
-                model.addAttribute("currentElectionId", electionId);
+                model.addAttribute("currentElection", election);
 
                 if (message == null && candidates.isEmpty()) {
                     message = "No candidates added to the election";
                     messageType = "info";
                 }
             } catch (IllegalArgumentException e) {
-                message = "Invalid election ID format";
-                messageType = "danger";
+                redirectAttributes.addFlashAttribute("message", e.getMessage());
+                redirectAttributes.addFlashAttribute("messageType", "danger");
+                return "redirect:/api/elections/dashboard";
             }
         } else {
             model.addAttribute("candidates", candidateService.getAllCandidates());
@@ -62,16 +65,18 @@ public class CandidateController {
             }
         }
 
-        model.addAttribute("message", message);
-        model.addAttribute("messageType", messageType);
+        model.addAttribute("message", model.containsAttribute("message") ?
+                model.getAttribute("message") : message);
+        model.addAttribute("messageType", model.containsAttribute("messageType") ?
+                model.getAttribute("messageType") : messageType);
 
         return "util/candidates";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/{electionId}/add")
     public String createCandidate(
             @ModelAttribute CandidateDTO candidateDTO,
-            @RequestParam String electionId,
+            @PathVariable String electionId,
             RedirectAttributes redirectAttributes) {
 
         try {
@@ -85,14 +90,16 @@ public class CandidateController {
 
             redirectAttributes.addAttribute("message", "Candidate created sucessfully");
             redirectAttributes.addAttribute("messageType", "success");
+            redirectAttributes.addFlashAttribute("electionId", electionId);
 
         } catch (Exception e) {
             redirectAttributes.addAttribute("message",
                     "Error creating candidate: " + e.getMessage());
             redirectAttributes.addAttribute("messageType", "error");
+            redirectAttributes.addAttribute("electionId", electionId);
         }
 
-        return "redirect:/api/candidate/";
+        return "redirect:/api/candidate/{electionId}";
     }
 
     @GetMapping("/edit/{id}")
@@ -113,12 +120,16 @@ public class CandidateController {
     }
 
 
-    @GetMapping("/delete/{id}")
-    public String deleteCandidate(@PathVariable UUID id,
+    @PostMapping("/delete_candidate")
+    public String deleteCandidate(@RequestParam UUID candidateId,
+                                  @RequestParam UUID electionId,
                                   RedirectAttributes redirectAttributes) {
-        candidateService.deleteCandidate(id);
+        candidateService.deleteCandidate(candidateId);
         redirectAttributes.addFlashAttribute("message",
                 "Candidate deleted successfully!");
-        return "redirect:/api/candidate/";
+        redirectAttributes.addFlashAttribute("electionId", electionId);
+        redirectAttributes.addFlashAttribute("messageType", "info");
+
+        return "redirect:/api/candidate/{electionId}";
     }
 }

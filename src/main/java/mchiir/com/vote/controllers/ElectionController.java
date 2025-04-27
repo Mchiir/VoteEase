@@ -75,7 +75,7 @@ public class ElectionController {
             });
 
             if(elections.isEmpty()){
-                model.addAttribute("message", "No visible Elections.");
+                model.addAttribute("message", "No Elections created yet");
                 model.addAttribute("messageType", "info");
                 return "dashboard";
             }
@@ -140,7 +140,6 @@ public class ElectionController {
     @PostMapping("/start_election")
     public String startElection(
             @RequestParam String electionId,
-            RedirectAttributes redirectAttributes,
             Model model) {
         UUID uuid = UUID.fromString(electionId);
         Election election = electionService.getElectionById(uuid);
