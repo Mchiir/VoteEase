@@ -9,6 +9,7 @@
     <style>
         body {
             padding-top: 70px; /* Add space for fixed navbar */
+            padding-bottom: 50px;
         }
     </style>
 </head>
@@ -31,6 +32,11 @@
     <!-- Success or Error Message -->
     <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert">
         <p th:text="${message}"></p>
+    </div>
+
+    <!-- Create new election -->
+    <div class="my-3 d-flex justify-content-end">
+        <a href="/api/elections/create" class="btn btn-primary">Create new election</a>
     </div>
 
     <!-- Display the Created Elections -->
@@ -107,36 +113,38 @@
                     <button type="button" class="btn btn-hideBtn" data-bs-toggle="modal" data-bs-target="#electionCodeModal"
                             th:data-eid="${election.id}" th:data-code="${election.otc}"
                             th:if="${election.otc != null and election.otc != ''}">
-                        View Election Code
+                        Election Code
                     </button>
                 </div>
             </div>
         </div>
 
     </div>
-
-    <!-- Create new election -->
-    <div class="mt-4">
-        <a href="/api/elections/create" class="btn btn-primary">Create new election</a>
-    </div>
 </div>
 
 <!-- Election Code Modal -->
-        <div class="modal fade" id="electionCodeModal" tabindex="-1" aria-labelledby="electionCodeModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="electionCodeModalLabel">Election Code</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p><strong>Election Code: </strong><span id="electionCode"></span></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
+<div class="modal fade" id="electionCodeModal" tabindex="-1" aria-labelledby="electionCodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="electionCodeModalLabel">Election Code</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p><strong>Election Code:</strong></p>
+                <input id="electionCodeInput" type="text" class="form-control text-center fw-bold mb-3" readonly style="font-size: 1.5rem;">
+
+                <!-- Copy button -->
+                <button class="btn btn-outline-primary" onclick="copyToClipBoard('electionCodeInput', 'electionCopyMessage')">Copy Code</button>
+
+                <!-- Success message -->
+                <div id="electionCopyMessage" class="text-muted mt-2" style="display: none;">Copied!</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
+    </div>
 </div>
 
 <footer>
@@ -148,13 +156,15 @@
     var electionCodeModal = document.getElementById('electionCodeModal');
     electionCodeModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget; // Button that triggered the modal
-        var electionId = button.getAttribute('data-eid'); // Extract election ID
+        var electionId = button.getAttribute('data-eid'); // (Optional) Election ID if needed
         var electionCode = button.getAttribute('data-code'); // Extract election code
 
-        var modalCode = electionCodeModal.querySelector('#electionCode');
-        modalCode.textContent = electionCode; // Set the election code in the modal
+        var modalCode = electionCodeModal.querySelector('#electionCodeInput');
+        modalCode.value = electionCode; // <-- Use .value for input, not textContent
     });
 </script>
+
+<script th:src="@{/js/main.js}"></script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
