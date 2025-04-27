@@ -39,6 +39,9 @@ public class CandidateController {
             Model model) {
 
         model.addAttribute("candidateDTO", new CandidateDTO());
+        if(model.getAttribute("electionId") != null && model.getAttribute("electionId") != "") {
+            electionId = model.getAttribute("electionId").toString();
+        }
 
         if (electionId != null && !electionId.isEmpty()) {
             try {
@@ -57,11 +60,6 @@ public class CandidateController {
                 redirectAttributes.addFlashAttribute("message", e.getMessage());
                 redirectAttributes.addFlashAttribute("messageType", "danger");
                 return "redirect:/api/elections/dashboard";
-            }
-        } else {
-            model.addAttribute("candidates", candidateService.getAllCandidates());
-            if (message == null) {
-                message = "Candidates retrieved successfully";
             }
         }
 
@@ -90,7 +88,7 @@ public class CandidateController {
 
             redirectAttributes.addAttribute("message", "Candidate created sucessfully");
             redirectAttributes.addAttribute("messageType", "success");
-            redirectAttributes.addFlashAttribute("electionId", electionId);
+            redirectAttributes.addAttribute("electionId", electionId);
 
         } catch (Exception e) {
             redirectAttributes.addAttribute("message",
@@ -125,10 +123,10 @@ public class CandidateController {
                                   @RequestParam UUID electionId,
                                   RedirectAttributes redirectAttributes) {
         candidateService.deleteCandidate(candidateId);
-        redirectAttributes.addFlashAttribute("message",
+        redirectAttributes.addAttribute("message",
                 "Candidate deleted successfully!");
-        redirectAttributes.addFlashAttribute("electionId", electionId);
-        redirectAttributes.addFlashAttribute("messageType", "info");
+        redirectAttributes.addAttribute("electionId", electionId);
+        redirectAttributes.addAttribute("messageType", "info");
 
         return "redirect:/api/candidate/{electionId}";
     }

@@ -4,40 +4,61 @@
     <meta charset="UTF-8">
     <title>Candidates Management</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
     <style>
         body {
             background: linear-gradient(to right, #e0f7fa, #ffffff);
             font-family: 'Segoe UI', sans-serif;
+            padding-bottom: 50px;
         }
         .dashboard-card {
             max-width: 500px;
             width: 90%;
+            margin-top: 2rem;
         }
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #f8f9fa;
+        .navbar {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            background-color: #ffffff !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .navbar h5 {
+            margin-bottom: 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #00796b;
+        }
+        .page-header {
+            margin-top: 6rem; /* push content lower under fixed navbar */
+            margin-bottom: 2rem;
             text-align: center;
-            padding: 0.5rem 0;
-            font-size: 0.9rem;
-            color: #6c757d;
+        }
+        .page-header h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #004d40;
+        }
+        .candidate-section {
+            margin-bottom: 3rem;
         }
     </style>
 </head>
 <body>
 
 <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm"
-     th:if="${currentElection != null}">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" th:if="${currentElection != null}">
     <div class="container-fluid">
         <h5 class="mb-0" th:text="'Candidates of ' + ${currentElection.title} + ' election'"></h5>
         <a class="btn btn-custom me-2" th:href="@{/api/elections/dashboard}">Elections &rarr;</a>
     </div>
 </nav>
 
-<div class="container mt-5">
+<!-- Page Header -->
+<div class="container page-header">
+    <h2>Manage Your Candidates</h2>
+</div>
+
+<div class="container candidate-section mb-5">
 
     <!-- Message Alert -->
     <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert">
@@ -51,10 +72,10 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${candidate.name}">Candidate Name</h5>
                     <p class="card-text mb-1"><strong>Email:</strong> <span th:text="${candidate.email}">email@example.com</span></p>
-                    <p class="card-text mb-1"><strong>Party:</strong>
+                    <p class="card-text mb-1" th:if="${candidate.party != null}"><strong>Party:</strong>
                         <span th:text="${candidate.party != null ? candidate.party : 'Independent'}">Party</span>
                     </p>
-                    <p class="card-text mb-1"><strong>Post:</strong> <span th:text="${candidate.post}">Post</span></p>
+                    <p class="card-text mb-1" th:if="${candidate.post != null}"><strong>Post:</strong> <span th:text="${candidate.post}">Post</span></p>
                     <p class="card-text"><strong>Votes:</strong> <span th:text="${candidate.votes}">0</span></p>
                 </div>
                 <div class="card-footer d-flex justify-content-between">

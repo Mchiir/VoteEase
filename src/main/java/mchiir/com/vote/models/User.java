@@ -44,14 +44,13 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    @Column(nullable = true)
-    private Boolean deleted;
+    @Column(nullable = false)
+    private boolean isDeleted = false;
 
     public User(String name, String email, Role role) {
         this.name = name;
         this.email = email;
         this.role = role;
-        this.deleted = false;
     }
     public User(String name, String email) {
         this(name, email,Role.Voter);

@@ -2,11 +2,14 @@ package mchiir.com.vote.services.impl;
 
 import lombok.AllArgsConstructor;
 import mchiir.com.vote.exceptions.ResourceNotFoundException;
+import mchiir.com.vote.models.User;
 import mchiir.com.vote.models.roles.Candidate;
 import mchiir.com.vote.models.utils.Election;
 import mchiir.com.vote.repositories.CandidateRepository;
 import mchiir.com.vote.services.CandidateService;
+import mchiir.com.vote.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +20,8 @@ import java.util.UUID;
 public class CandidateServiceImpl implements CandidateService {
     @Autowired
     private CandidateRepository candidateRepository;
+    @Autowired
+    private UserService userService;
 
     @Override
     public void createCandidate(Candidate candidate) {
@@ -50,11 +55,16 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public void deleteCandidate(UUID candidateId) {
-        candidateRepository.deleteById(candidateId);
+        User existingCandidate = userService.getUserById(candidateId);
+        existingCandidate.setDeleted(true);
+        userService.updateUser(candidateId, existingCandidate);
     }
 
     @Override
     public List<Candidate> getCandidatesByElection(Election election) {
-        return candidateRepository.findByElection(election);
+        return candidateRepository.findByElection(election)
+                .stream()
+                .filter(candidate -> !candidate.isDeleted())
+                .toList();
     }
 }
