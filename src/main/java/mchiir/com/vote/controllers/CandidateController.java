@@ -30,7 +30,7 @@ public class CandidateController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @GetMapping("/")
+    @PostMapping("/")
     public String showCandidateManagement(
             @RequestParam(required = false) String electionId,
             @RequestParam(required = false) String message,
@@ -71,19 +71,20 @@ public class CandidateController {
     @PostMapping("/add")
     public String createCandidate(
             @ModelAttribute CandidateDTO candidateDTO,
-            @RequestParam(required = false) String electionId,
+            @RequestParam String electionId,
             RedirectAttributes redirectAttributes) {
 
         try {
             Candidate candidate = modelMapper.map(candidateDTO, Candidate.class);
+            candidate.setName(candidateDTO.getName());
+            candidate.setEmail(candidateDTO.getEmail());
+            candidate.setParty(candidateDTO.getParty());
+            candidate.setPost(candidateDTO.getPost());
+            candidate.setElection(electionService.getElectionById(UUID.fromString(electionId)));
             candidateService.createCandidate(candidate);
 
             redirectAttributes.addAttribute("message", "Candidate created sucessfully");
             redirectAttributes.addAttribute("messageType", "success");
-
-            if (electionId != null) {
-                redirectAttributes.addAttribute("electionId", electionId);
-            }
 
         } catch (Exception e) {
             redirectAttributes.addAttribute("message",

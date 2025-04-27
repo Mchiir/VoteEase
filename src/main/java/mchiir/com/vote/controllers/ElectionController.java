@@ -102,7 +102,7 @@ public class ElectionController {
         }
 
         model.addAttribute("electionDTO", new ElectionDTO());
-        return "util/election";
+        return "util/new_election";
     }
 
     @PostMapping("/create")
@@ -133,7 +133,7 @@ public class ElectionController {
         } catch (Exception e) {
             model.addAttribute("message", "Error creating election: " + e.getMessage());
             model.addAttribute("messageType", "danger");
-            return "util/election";
+            return "util/new_election";
         }
     }
 
@@ -197,11 +197,11 @@ public class ElectionController {
     }
 
     @PostMapping("/toggle_election_hide")
-    public String deleteElection(@RequestParam("electionId") UUID electionId,
+    public String toggleElectionHide(@RequestParam("electionId") UUID electionId,
                                  RedirectAttributes redirectAttributes) {
         try {
             Election election = electionService.getElectionById(electionId);
-            if (election != null && !election.getIsHidden()) {
+            if (election != null) {
                 election.setIsHidden(!election.getIsHidden());
                 electionService.updateElection(electionId, election);
 //                redirectAttributes.addFlashAttribute("message", "Election hidden successfully.");

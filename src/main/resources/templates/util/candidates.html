@@ -66,7 +66,9 @@
     <!-- Add Candidate Form -->
     <div class="card p-4 shadow dashboard-card mx-auto">
         <h4 class="mb-3 text-center text-success">Add New Candidate</h4>
-        <form th:action="@{/api/candidate/add}" method="post">
+        <form th:action="@{/api/candidate/add}" th:object="${candidateDTO}" method="post">
+
+
             <div class="row mb-3">
                 <div class="col">
                     <input type="text" name="name" class="form-control" placeholder="Candidate Name"
@@ -89,15 +91,7 @@
                 </div>
             </div>
 
-            <div class="mb-3">
-                <select class="form-select" name="electionId" required>
-                    <option disabled selected>Select Election</option>
-                    <option th:each="e : ${elections}"
-                            th:value="${e.id}"
-                            th:text="${e.title}">
-                    </option>
-                </select>
-            </div>
+            <input type="hidden" name="electionId" th:value="${currentElectionId}"/>
 
             <button type="submit" class="btn btn-success w-100">Add Candidate</button>
         </form>

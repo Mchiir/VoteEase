@@ -35,76 +35,86 @@
 
     <!-- Display the Created Elections -->
     <div class="card mb-4" th:each="election : ${elections}">
-        <div class="card-header d-flex justify-content-between align-items-center" th:if="${election.isHidden}">
+
+        <!-- HEADER -->
+        <div class="card-header d-flex justify-content-between align-items-center">
+
+            <!-- Title always -->
             <h5 class="mb-0" th:text="${election.title}">Election Title</h5>
 
-            <!-- Hidding election -->
-            <form th:action="@{/api/elections/toggle_election_hide}" method="post">
-                <input type="hidden" name="electionId" th:value="${election.id}">
-                <button type="submit" class="btn btn-hideBtn"
-                        th:text="${election.isHidden ? 'Unhide Election' : 'Hide Election'}"
-                ></button>
-            </form>
+            <!-- Right-side Buttons -->
+            <div class="d-flex gap-2">
+                <!-- Hide/Unhide Button -->
+                <form th:action="@{/api/elections/toggle_election_hide}" method="post">
+                    <input type="hidden" name="electionId" th:value="${election.id}">
+                    <button type="submit" class="btn btn-hideBtn"
+                            th:text="${election.isHidden ? 'Unhide Election' : 'Hide Election'}">
+                    </button>
+                </form>
+
+                <!-- Other buttons only if election is NOT hidden -->
+                <div th:if="${!election.isHidden}" class="d-flex gap-2">
+
+                    <!-- UPCOMING: Start Election -->
+                    <form th:if="${election.status.name() == 'UPCOMING'}"
+                          th:action="@{/api/elections/start_election}" method="post">
+                        <input type="hidden" name="electionId" th:value="${election.id}">
+                        <button type="submit" class="btn btn-success">Start Election</button>
+                    </form>
+
+                    <!-- ONGOING: End Election -->
+                    <form th:if="${election.status.name() == 'ONGOING'}"
+                          th:action="@{/api/elections/end_election}" method="post">
+                        <input type="hidden" name="electionId" th:value="${election.id}">
+                        <button type="submit" class="btn btn-danger">End Election</button>
+                    </form>
+
+                    <!-- CLOSED: View Results -->
+                    <a th:if="${election.status.name() == 'CLOSED'}"
+                       th:href="@{/api/elections/results(electionId=${election.id})}"
+                       class="btn btn-secondary">
+                        View Results
+                    </a>
+
+                </div>
+            </div>
+
         </div>
 
-        <div class="card-header d-flex justify-content-between align-items-center" th:unless="${election.isHidden}">
-            <h5 class="mb-0" th:text="${election.title}">Election Title</h5>
+        <!-- BODY and FOOTER only if election is NOT hidden -->
+        <div th:if="${!election.isHidden}">
+            <div class="card-body">
+                <p><strong>Description:</strong> <span th:text="${election.description}"></span></p>
+            </div>
 
-            <!-- Hidding election -->
-            <form th:action="@{/api/elections/toggle_election_hide}" method="post">
-                <input type="hidden" name="electionId" th:value="${election.id}">
-                <button type="submit" class="btn btn-hideBtn"
-                        th:text="${election.isHidden ? 'Unhide Election' : 'Hide Election'}"
-                ></button>
-            </form>
-
-            <!-- UPCOMING -->
-            <form th:if="${election.status.name() == 'UPCOMING'}"
-                  th:action="@{/api/elections/start_election}" method="post">
-                <input type="hidden" name="electionId" th:value="${election.id}">
-                <button type="submit" class="btn btn-success">Start Election</button>
-            </form>
-
-            <!-- ONGOING -->
-            <form th:if="${election.status.name() == 'ONGOING'}"
-                  th:action="@{/api/elections/end_election}" method="post">
-                <input type="hidden" name="electionId" th:value="${election.id}">
-                <button type="submit" class="btn btn-hideBtn">End Election</button>
-            </form>
-
-            <!-- CLOSED -->
-            <a th:if="${election.status.name() == 'CLOSED'}"
-               th:href="@{/api/elections/results(electionId=${election.id})}"
-               class="btn btn-secondary">
-                View Results
-            </a>
-        </div>
-
-        <div class="card-body">
-            <p><strong>Description:</strong> <span th:text="${election.description}"></span></p>
-        </div>
-
-        <div class="card-footer d-flex justify-content-between flex-wrap">
-            <div class="d-flex gap-3 flex-row align-items-center mb-3">
+            <div class="card-footer d-flex justify-content-between flex-wrap">
+                <div class="d-flex gap-3 flex-row align-items-center mb-3">
                 <span th:if="${election.formatedStartTime != null}">
                     <strong>Starting time:</strong>
                     <span th:text="${election.formatedStartTime}"></span>
                 </span>
-                <span th:if="${election.formatedEndTime != null}">
+                    <span th:if="${election.formatedEndTime != null}">
                     <strong>End time:</strong>
                     <span th:text="${election.formatedEndTime}"></span>
                 </span>
-            </div>
-            <div class="d-flex justify-content-between w-100">
-                <a class="btn btn-hideBtn" th:href="@{/api/candidate/add(electionId=${election.id})}">Add Candidates</a>
-                <!-- View Election Code Button -->
-                <button type="button" class="btn btn-hideBtn" data-bs-toggle="modal" data-bs-target="#electionCodeModal"
-                        th:data-eid="${election.id}" th:data-code="${election.otc}" th:if="${election.otc != null and election.otc != ''}">
-                    View Election Code
-                </button>
+                </div>
+                <div class="d-flex justify-content-between w-100">
+                    <form th:action="@{/api/candidate/}" method="post">
+                        <input type="hidden" name="electionId" th:value="${election.id}">
+                        <button type="submit" class="btn btn-custom">Add candidates</button>
+                    </form>
+
+                    <!-- View Election Code Button -->
+                    <button type="button" class="btn btn-hideBtn" data-bs-toggle="modal" data-bs-target="#electionCodeModal"
+                            th:data-eid="${election.id}" th:data-code="${election.otc}"
+                            th:if="${election.otc != null and election.otc != ''}">
+                        View Election Code
+                    </button>
+                </div>
             </div>
         </div>
-        </div>
+
+    </div>
 
     <!-- Link to create new election -->
     <div class="mt-4">
