@@ -65,7 +65,7 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .authorizeHttpRequests(registry ->{
-                    registry.requestMatchers("/api/auth/**","/css/**","/js/**", "/").permitAll();
+                    registry.requestMatchers("/api/auth/**","/css/**","/js/**", "/", "/api/vote/**").permitAll();
                     registry.anyRequest().authenticated();
                 })
                 .exceptionHandling(exceptions -> exceptions

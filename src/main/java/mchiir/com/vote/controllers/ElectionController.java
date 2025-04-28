@@ -82,7 +82,7 @@ public class ElectionController {
 
             model.addAttribute("elections", elections);
             model.addAttribute("message", model.containsAttribute("message") ?
-                    model.getAttribute("message") : "Elections retrieved successfully");
+                    model.getAttribute("message") : "Elections retrieved successfully, please start an election to get election code");
             model.addAttribute("messageType", model.containsAttribute("messageType") ?
                     model.getAttribute("messageType") : "info");
 

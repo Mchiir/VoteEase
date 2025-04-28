@@ -16,6 +16,7 @@ import java.util.UUID;
 public class ElectionServiceImpl implements ElectionService {
 
     private final ElectionRepository electionRepository;
+
     public ElectionServiceImpl(ElectionRepository electionRepository) {
         this.electionRepository = electionRepository;
     }
@@ -76,5 +77,11 @@ public class ElectionServiceImpl implements ElectionService {
             otc =  String.format("%03d-%03d", part1, part2); // e.g., 034-234
         } while (electionRepository.existsByOtc(otc)); // Check uniqueness
         return otc;
+    }
+
+    @Override
+    public Election getElectionByOtc(String otc){
+        return electionRepository.findByOtc(otc)
+                .orElseThrow(() -> new ResourceNotFoundException("Election", "otc", otc));
     }
 }

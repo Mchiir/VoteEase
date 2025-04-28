@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${election.title}">Election</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <!-- Home button -->
+    <div class="mb-4">
+        <a href="/" class="btn btn-custom btn-sm">Home</a>
+    </div>
+
+    <!-- Message -->
+    <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert">
+        <p th:text="${message}"></p>
+    </div>
+
+    <!-- Election Title -->
+    <div class="text-center mb-5">
+        <h2>Election title</h2>
+        <h2 class="text-primary" th:text="${election.title}">Election Title</h2>
+        <p th:text="${election.description}">Election Description</p>
+        <small class="text-muted" th:if="${election.formatedStartTime != null}">
+            Election started at <span th:text="${election.formatedStartTime}"></span>
+        </small>
+    </div>
+
+    <!-- Candidates Voting Form -->
+    <form th:action="@{/api/vote/cast}" method="post">
+
+        <!-- Loop through posts and their corresponding candidates -->
+        <div th:each="entry : ${postsWithCandidates}">
+
+            <!-- Post Title (e.g., President, Secretary) -->
+            <h4 th:text="${entry.key}" class="text-center text-primary mb-4"></h4>
+
+            <!-- Loop through candidates for each post -->
+            <div class="row">
+                <div th:each="candidate : ${entry.value}" class="col-md-6 mb-4">
+
+                    <div class="card shadow-sm h-100">
+
+                        <label class="card-body d-flex flex-column justify-content-between" style="cursor: pointer;">
+
+                            <!-- Radio button for candidate selection -->
+                            <input type="radio" th:name="${entry.key}" th:value="${candidate.id}" class="form-check-input mb-3" style="align-self: start;">
+
+                            <!-- Candidate Name -->
+                            <h5 class="card-title text-dark" th:text="${candidate.name}">Candidate Name</h5>
+
+                            <!-- Party (optional) -->
+                            <p class="card-text text-secondary" th:if="${candidate.party}" th:text="'Party: ' + ${candidate.party}"></p>
+
+                        </label>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Submit Vote Button -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success px-5">Submit Vote</button>
+        </div>
+
+    </form>
+
+</div>
+
+<footer>
+    &copy; 2025 @Mchiir. All rights reserved.
+</footer>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

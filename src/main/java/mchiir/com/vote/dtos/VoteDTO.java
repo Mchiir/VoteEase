@@ -8,7 +8,6 @@ import java.util.UUID;
 @Data
 public class VoteDTO {
     private UUID id;
-    private UUID voterId;
     private UUID candidateId;
     private UUID electionId;
     private Date votedAt;

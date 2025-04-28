@@ -20,4 +20,5 @@ public interface ElectionService {
 
     Election getElectionById(UUID id);
     String generateOtc();
+    Election getElectionByOtc(String otc);
 }
