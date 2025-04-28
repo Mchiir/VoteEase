@@ -1,25 +1,34 @@
 package mchiir.com.vote.services.impl;
 
+import lombok.AllArgsConstructor;
+import mchiir.com.vote.dtos.VoteDTOFinal;
 import mchiir.com.vote.exceptions.ResourceNotFoundException;
+import mchiir.com.vote.models.enums.ElectionStatus;
+import mchiir.com.vote.models.roles.Candidate;
 import mchiir.com.vote.models.roles.Guider;
 import mchiir.com.vote.models.utils.Election;
+import mchiir.com.vote.repositories.CandidateRepository;
 import mchiir.com.vote.repositories.ElectionRepository;
+import mchiir.com.vote.services.CandidateService;
 import mchiir.com.vote.services.ElectionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 import java.util.Random;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class ElectionServiceImpl implements ElectionService {
 
+    @Autowired
     private final ElectionRepository electionRepository;
-
-    public ElectionServiceImpl(ElectionRepository electionRepository) {
-        this.electionRepository = electionRepository;
-    }
+    @Autowired
+    private final CandidateRepository candidateRepository;
+    @Autowired
+    private final CandidateService candidateService;
 
     @Override
     public List<Election> getAllElections() {
@@ -81,7 +90,44 @@ public class ElectionServiceImpl implements ElectionService {
 
     @Override
     public Election getElectionByOtc(String otc){
-        return electionRepository.findByOtc(otc)
+        if (otc == null || otc.length() != 7) {
+            throw new IllegalArgumentException("Invalid election code format");
+        }
+
+        Election election = electionRepository.findByOtc(otc)
                 .orElseThrow(() -> new ResourceNotFoundException("Election", "otc", otc));
+
+        if(election.getStatus() != ElectionStatus.ONGOING)
+            throw new IllegalArgumentException("The election has not yet started or ended.");
+
+        return election;
+    }
+
+    @Override
+    @Transactional
+    public void saveVote(VoteDTOFinal voteDTO) {
+        try {
+            // Step 1: Retrieve the election using the electionId from the voteDTO
+            Election election = electionRepository.findById(voteDTO.getElectionId())
+                    .orElseThrow(() -> new RuntimeException("Election not found"));
+
+            // Iterating over the candidateVotes map to update vote counts for each selected candidate
+            for (Map.Entry<String, UUID> entry : voteDTO.getCandidateVotes().entrySet()) {
+                String post = entry.getKey(); // The post name
+                UUID candidateId = entry.getValue(); // Candidate ID
+
+                Candidate candidate = candidateRepository.findById(candidateId)
+                        .orElseThrow(() -> new RuntimeException("Candidate not found for ID: " + candidateId));
+
+                // Increment the candidate's vote count
+                candidate.setVotes(candidate.getVotes() + 1);
+
+                // Step 5: Save the updated candidate
+                candidateService.updateCandidate(candidateId, candidate);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving vote", e);
+        }
     }
 }

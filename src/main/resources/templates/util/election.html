@@ -1,83 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${election.title}">Election</title>
+    <title th:text="${election.title} + ' - Voting'">Election Voting</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/styles.css}" rel="stylesheet">
+    <style>
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .form-check-input {
+            width: 1.2em;
+            height: 1.2em;
+        }
+    </style>
 </head>
 <body class="bg-light">
 
 <div class="container py-5">
 
-    <!-- Home button -->
+    <!-- Navigation -->
     <div class="mb-4">
-        <a href="/" class="btn btn-custom btn-sm">Home</a>
+        <a th:href="@{/}" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-house-door"></i> Home
+        </a>
     </div>
 
-    <!-- Message -->
-    <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert">
-        <p th:text="${message}"></p>
+    <!-- Flash Message -->
+    <div th:if="${message}" th:class="'alert alert-' + ${messageType} + ' alert-dismissible fade show'" role="alert">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <!-- Election Title -->
+    <!-- Election Header -->
     <div class="text-center mb-5">
-        <h2>Election title</h2>
-        <h2 class="text-primary" th:text="${election.title}">Election Title</h2>
-        <p th:text="${election.description}">Election Description</p>
-        <small class="text-muted" th:if="${election.formatedStartTime != null}">
-            Election started at <span th:text="${election.formatedStartTime}"></span>
-        </small>
+        <h1 class="display-5 fw-bold text-primary" th:text="${election.title}">Election Title</h1>
+        <div class="lead" th:text="${election.description}">Election description</div>
+
+        <!-- Election Timeline -->
+        <div class="mt-3">
+            <span class="badge bg-light text-dark me-2"
+                  th:if="${election.formatedStartTime != null}">
+                <i class="bi bi-calendar-check"></i>
+                Election Started at : <span th:text="${election.formatedStartTime}"></span>
+            </span>
+        </div>
     </div>
 
-    <!-- Candidates Voting Form -->
-    <form th:action="@{/api/vote/cast}" method="post">
+    <!-- Voting Form -->
+    <form th:action="@{/api/vote/cast}" method="post" th:object="${voteDTO}">
+        <input type="hidden" th:field="*{electionId}">
 
-        <!-- Loop through posts and their corresponding candidates -->
-        <div th:each="entry : ${postsWithCandidates}">
+        <!-- Posts and Candidates -->
+        <div th:each="entry : ${postsWithCandidates}" class="mb-5">
 
-            <!-- Post Title (e.g., President, Secretary) -->
-            <h4 th:text="${entry.key}" class="text-center text-primary mb-4"></h4>
-
-            <!-- Loop through candidates for each post -->
-            <div class="row">
-                <div th:each="candidate : ${entry.value}" class="col-md-6 mb-4">
-
-                    <div class="card shadow-sm h-100">
-
-                        <label class="card-body d-flex flex-column justify-content-between" style="cursor: pointer;">
-
-                            <!-- Radio button for candidate selection -->
-                            <input type="radio" th:name="${entry.key}" th:value="${candidate.id}" class="form-check-input mb-3" style="align-self: start;">
-
-                            <!-- Candidate Name -->
-                            <h5 class="card-title text-dark" th:text="${candidate.name}">Candidate Name</h5>
-
-                            <!-- Party (optional) -->
-                            <p class="card-text text-secondary" th:if="${candidate.party}" th:text="'Party: ' + ${candidate.party}"></p>
-
-                        </label>
-
-                    </div>
-
-                </div>
+            <!-- Post Header -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h4 text-primary" th:text="${entry.key}">Post Title</h3>
+                <small class="text-muted">Select a candidate</small>
             </div>
 
+            <!-- Candidates Grid -->
+            <div class="row g-4">
+
+                <div th:each="candidate : ${entry.value}" class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-sm position-relative p-3">
+
+                        <!-- Bootstrap form-check -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio"
+                                   th:name="${'candidateVotes[' + entry.key + ']'}"
+                                   th:value="${candidate.id}"
+                                   th:id="${candidate.id}">
+                            <label class="form-check-label w-100" th:for="${candidate.id}">
+                                <h5 class="card-title mb-1" th:text="${candidate.name}">Candidate Name</h5>
+                                <p class="card-text text-muted small mb-1"
+                                   th:if="${candidate.party != null and !candidate.party.isEmpty()}"
+                                   th:text="'Party: ' + ${candidate.party}">
+                                </p>
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
 
-        <!-- Submit Vote Button -->
-        <div class="text-center mt-4">
-            <button type="submit" class="btn btn-success px-5">Submit Vote</button>
+        <!-- Form Actions -->
+        <div class="text-center mt-5">
+            <button type="submit" class="btn btn-primary btn-lg px-5">
+                <i class="bi bi-check-circle"></i> Submit Vote
+            </button>
         </div>
-
     </form>
-
 </div>
 
 <footer>
     &copy; 2025 @Mchiir. All rights reserved.
 </footer>
-
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

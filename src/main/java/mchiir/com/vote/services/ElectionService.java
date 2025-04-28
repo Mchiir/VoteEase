@@ -1,5 +1,6 @@
 package mchiir.com.vote.services;
 
+import mchiir.com.vote.dtos.VoteDTOFinal;
 import mchiir.com.vote.models.roles.Guider;
 import mchiir.com.vote.models.utils.Election;
 import org.springframework.stereotype.Service;
@@ -21,4 +22,5 @@ public interface ElectionService {
     Election getElectionById(UUID id);
     String generateOtc();
     Election getElectionByOtc(String otc);
+    void saveVote(VoteDTOFinal vote);
 }

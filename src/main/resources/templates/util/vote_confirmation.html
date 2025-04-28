@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vote</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet"></head>
+<body class="bg-light d-flex align-items-center justify-content-center min-vh-100">
+
+<div class="card p-4 shadow rounded-4 text-center" style="max-width: 400px;">
+    <div class="mb-4">
+        <!-- Success icon using Bootstrap's icons or SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 10.03a.75.75 0 0 0 1.08.02L11.03 7a.75.75 0 1 0-1.06-1.06L7.5 8.44 6.03 7.03a.75.75 0 1 0-1.06 1.06l2 2z"/>
+        </svg>
+    </div>
+    <h1 class="h4 mb-3 text-dark">Vote Submitted Successfully!</h1>
+    <p class="text-muted mb-4">Thank you for participating in the election. Your vote has been recorded.</p>
+<!--    <a href="/home" class="btn btn-primary btn-lg rounded-pill">Go to Home</a>-->
+</div>
+
+<footer>
+    &copy; 2025 @Mchiir. All rights reserved.
+</footer>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script></body>
+</html>
