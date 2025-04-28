@@ -1,28 +1,35 @@
-# VoteEase - Spring Boot Backend
+# VoteEase - Spring Boot Voting System
 
-VoteEase is a secure and scalable online voting system backend built with **Spring Boot**. It provides robust authentication, real-time vote tallying, and seamless API integration for frontend applications.
+VoteEase is a complete online voting system built with **Spring Boot** and **Thymeleaf**, featuring integrated server-side rendering with robust security and real-time functionality.
 
 ## 🚀 Features
 
-- **User Authentication** (JWT-based security)
-- **Role-based Access Control** (Voter, Admin, Election Officer)
-- **Secure Voting API** (Prevent duplicate votes)
-- **Real-time Vote Counting** (WebSockets & Scheduled Jobs)
+- **User Authentication** (Session-based security)
+- **Role-based Access Control** (Candidate, Voter, Admin, Election guider)
+- **Secure Voting System** (Prevent duplicate votes)
+- **Real-time Vote Counting** (Thymeleaf live updates)
 - **Audit Logs & Data Integrity**
-- **Scalable & Cloud-Ready Architecture**
+- **Template-driven UI** (Server-side rendered views)
 
 ## 🏗️ Tech Stack
 
-### **Backend**
+### **Server Components**
 
-- **Spring Boot** - Core backend framework
-- **Spring Security & Session** - Secure authentication & authorization
-- **Spring Data JPA (Hibernate)** - ORM for database interactions
-- **PostgreSQL** - Relational database for storing votes & users
-- **WebSockets** - Real-time vote updates
-- **Lombok** - Reducing boilerplate code
+- **Spring Boot** - Core application framework
+- **Thymeleaf** - Server-side templating engine
+- **Spring Security** - Authentication & authorization
+- **Spring Data JPA (Hibernate)** - Database ORM layer
+- **PostgreSQL** - Persistent data storage
+- **Lombok** - Boilerplate reduction
 
-### requisites
+### UI Layer
+
+- **Bootstrap 5** - Responsive frontend components
+- **Thymeleaf Fragments** - Reusable UI templates
+- **Spring MVC** - Controller-driven views
+- **Form Binding** - Thymeleaf + Spring validation
+
+### Prerequisites
 
 - Java 17+
 - Maven
@@ -30,12 +37,11 @@ VoteEase is a secure and scalable online voting system backend built with **Spri
 
 ## Resources used
 
-- [Spring security](https://www.youtube.com/watch?v=X7pGCmVxx10&t=689s)
--
+- [Spring Security](https://www.youtube.com/watch?v=X7pGCmVxx10&t=689s)
 
 ## 📜 License
 
-MIT License - Feel free to contribute!
+MIT License - Feel free to contribute and make Pull Request!
 
 ## ✉️ Contact
 
