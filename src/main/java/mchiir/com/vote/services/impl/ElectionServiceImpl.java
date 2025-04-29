@@ -1,6 +1,8 @@
 package mchiir.com.vote.services.impl;
 
 import lombok.AllArgsConstructor;
+import mchiir.com.vote.dtos.CandidateResult;
+import mchiir.com.vote.dtos.ElectionResultDTO;
 import mchiir.com.vote.dtos.VoteDTOFinal;
 import mchiir.com.vote.exceptions.ResourceNotFoundException;
 import mchiir.com.vote.models.enums.ElectionStatus;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -91,14 +94,16 @@ public class ElectionServiceImpl implements ElectionService {
     @Override
     public Election getElectionByOtc(String otc){
         if (otc == null || otc.length() != 7) {
-            throw new IllegalArgumentException("Invalid election code format");
+            throw new IllegalArgumentException("Invalid code format: must be 7 characters");
         }
 
         Election election = electionRepository.findByOtc(otc)
                 .orElseThrow(() -> new ResourceNotFoundException("Election", "otc", otc));
 
-        if(election.getStatus() != ElectionStatus.ONGOING)
-            throw new IllegalArgumentException("The election has not yet started or ended.");
+        if(election.getStatus() == ElectionStatus.CLOSED)
+            throw new IllegalArgumentException("The election has ended.");
+        if(election.getStatus() == ElectionStatus.UPCOMING)
+            throw new IllegalArgumentException("The election not yet started.");
 
         return election;
     }
@@ -110,6 +115,14 @@ public class ElectionServiceImpl implements ElectionService {
             // Step 1: Retrieve the election using the electionId from the voteDTO
             Election election = electionRepository.findById(voteDTO.getElectionId())
                     .orElseThrow(() -> new RuntimeException("Election not found"));
+
+            int maxVoters = election.getMax_voters_count();
+            int current_voters = election.getVoters_count();
+            if(current_voters >= maxVoters) {
+                throw new IllegalStateException("Maximum number of voters has been reached for this election.");
+            }
+
+            election.setVoters_count(current_voters + 1);
 
             // Iterating over the candidateVotes map to update vote counts for each selected candidate
             for (Map.Entry<String, UUID> entry : voteDTO.getCandidateVotes().entrySet()) {
@@ -129,5 +142,56 @@ public class ElectionServiceImpl implements ElectionService {
         } catch (Exception e) {
             throw new RuntimeException("Error saving vote", e);
         }
+    }
+
+    @Override
+    public ElectionResultDTO getElectionResult(UUID electionId) {
+        Map<String, List<CandidateResult>> postsWithCandidates = new HashMap<>();
+
+        Election election = electionRepository.findById(electionId)
+                .orElseThrow(() -> new RuntimeException("Election not found"));
+
+        if(election.getStatus() == ElectionStatus.ONGOING)
+            throw new SecurityException("The election is now in progress, let it end first");
+        if(election.getStatus() == ElectionStatus.UPCOMING)
+            throw new SecurityException("The election has not yet started");
+        if(election.getStatus() != ElectionStatus.CLOSED)
+            throw new SecurityException("The election has not yet ended");
+
+        List<Candidate> candidates = election.getCandidates();
+
+        // Get all unique posts
+        Set<String> allPosts = candidates.stream()
+                .map(Candidate::getPost)
+                .collect(Collectors.toSet());
+
+        for (String post : allPosts) {
+            List<CandidateResult> candidateResults = candidates.stream()
+                    .filter(c -> c.getPost().equals(post))
+                    .map(c -> new CandidateResult(c.getId(), c.getName(), c.getVotes()))
+                    .sorted(Comparator.comparingInt(CandidateResult::getVoteCount).reversed())
+                    .collect(Collectors.toList());
+
+            // top candidate is winner if the list is not empty
+            if (!candidateResults.isEmpty()) {
+                candidateResults.get(0).setWinner(true);
+            }
+
+            postsWithCandidates.put(post, candidateResults);
+        }
+
+        // Build and return DTO
+        ElectionResultDTO dto = new ElectionResultDTO();
+        dto.setTitle(election.getTitle());
+        dto.setDescription(election.getDescription());
+        dto.setFormatedStartTime(election.getFormatedStartTime());
+        dto.setFormatedEndTime(election.getFormatedEndTime());
+        dto.setStatus(election.getStatus().toString());
+        dto.setMaxVotersCount(election.getMax_voters_count());
+        dto.setVotersCount(election.getVoters_count());
+        dto.setGuiderName(election.getGuider().getName()); // Adjust if different
+        dto.setPostsWithCandidates(postsWithCandidates);
+
+        return dto;
     }
 }

@@ -11,4 +11,5 @@ import java.util.UUID;
 @Repository
 public interface CandidateRepository extends JpaRepository<Candidate, UUID> {
     List<Candidate> findByElection(Election election);
+    List<Candidate> findByPost(String post);
 }

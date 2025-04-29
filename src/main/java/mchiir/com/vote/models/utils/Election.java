@@ -1,6 +1,8 @@
 package mchiir.com.vote.models.utils;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -67,6 +69,14 @@ public class Election {
 
     private String formatedStartTime;
     private String formatedEndTime;
+
+    @Column(nullable = false, name = "max_voters_count")
+    @Min(10)
+    @Max(500)
+    private int max_voters_count = 10;
+
+    @Column(name = "voters_count", nullable = false)
+    private int voters_count = 0;
 
     @Column(name = "is_hidden", nullable = false)
     private boolean isHidden = false;  // Default to false (not deleted)

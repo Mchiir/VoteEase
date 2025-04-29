@@ -1,5 +1,6 @@
 package mchiir.com.vote.services;
 
+import mchiir.com.vote.dtos.ElectionResultDTO;
 import mchiir.com.vote.dtos.VoteDTOFinal;
 import mchiir.com.vote.models.roles.Guider;
 import mchiir.com.vote.models.utils.Election;
@@ -23,4 +24,5 @@ public interface ElectionService {
     String generateOtc();
     Election getElectionByOtc(String otc);
     void saveVote(VoteDTOFinal vote);
+    ElectionResultDTO getElectionResult(UUID electionId);
 }

@@ -4,8 +4,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import mchiir.com.vote.dtos.ElectionDTOFinal;
 import mchiir.com.vote.dtos.VoteDTOFinal;
-import mchiir.com.vote.exceptions.ResourceNotFoundException;
-import mchiir.com.vote.models.enums.ElectionStatus;
 import mchiir.com.vote.models.roles.Candidate;
 import mchiir.com.vote.models.utils.Election;
 import mchiir.com.vote.services.ElectionService;
@@ -46,22 +44,10 @@ public class VoteController {
         try {
             Election election = electionService.getElectionByOtc(otc.trim());
 
-            if (election.getStatus() == ElectionStatus.CLOSED) {
-                redirectAttributes.addFlashAttribute("message", "Election has ended");
-                redirectAttributes.addFlashAttribute("messageType", "danger");
-                return "redirect:/api/vote/enroll";
-            }
-
             return "redirect:/api/vote/" + election.getId() + "/election";
 
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("message", "Invalid code format: must be 7 characters");
-            redirectAttributes.addFlashAttribute("messageType", "danger");
-        } catch (ResourceNotFoundException e) {
-            redirectAttributes.addFlashAttribute("message", "No active election found with this code");
-            redirectAttributes.addFlashAttribute("messageType", "danger");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("message", "System error. Please try again.");
+            redirectAttributes.addFlashAttribute("message", (e.getMessage() != null) ? e.getMessage() : "A system error occurred");
             redirectAttributes.addFlashAttribute("messageType", "danger");
         }
         return "redirect:/api/vote/enroll";
@@ -121,7 +107,7 @@ public class VoteController {
             redirectAttributes.addFlashAttribute("messageType", "success");
             return "redirect:/api/vote/confirmation";  // Better to redirect after POST (PRG pattern)
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("message", "Error while submitting vote: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("message",  (e.getMessage() != null) ? e.getMessage() : "A system error occurred");
             redirectAttributes.addFlashAttribute("messageType", "danger");
             redirectAttributes.addFlashAttribute("voteDTO", voteDTO);  // preserve submitted data
             return "redirect:/api/vote/" + voteDTO.getElectionId() + "/election";

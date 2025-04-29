@@ -1,6 +1,8 @@
 package mchiir.com.vote.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import mchiir.com.vote.dtos.ElectionResultDTO;
 import mchiir.com.vote.models.enums.ElectionStatus;
 import mchiir.com.vote.services.DateFormatingService;
 import mchiir.com.vote.services.UserService;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -106,10 +109,11 @@ public class ElectionController {
     }
 
     @PostMapping("/create")
-    public String submitElection(@ModelAttribute ElectionDTO electionDTO,
-                                 Model model,
+    public String submitElection(@Valid @ModelAttribute ElectionDTO electionDTO,
+                                 BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes,
-                                 Authentication authentication) {
+                                 Authentication authentication,
+                                 Model model) {
         String email = authentication.getName();
         Guider guider = userService.findByEmail(email);
 
@@ -118,12 +122,18 @@ public class ElectionController {
             redirectAttributes.addFlashAttribute("messageType", "success");
             return "redirect:/api/auth/login?error";
         }
+        if(bindingResult.hasErrors()){
+            model.addAttribute("message", "Please correct the errors in the form.");
+            model.addAttribute("messageType", "danger");
+            return "util/new_election";
+        }
 
         try {
             var election = new Election();
             election.setGuider(guider);
             election.setTitle(electionDTO.getTitle());
             election.setDescription(electionDTO.getDescription());
+            election.setMax_voters_count(electionDTO.getMaxVotersCount());
 
             electionService.createElection(election);
 
@@ -174,25 +184,24 @@ public class ElectionController {
         return "redirect:/api/elections/dashboard";  // Redirect to dashboard
     }
 
-    @GetMapping("/results")
+    @GetMapping("/{electionId}/results")
     public String viewResults(
-            @RequestParam String electionId,
+            @PathVariable("electionId") UUID electionId,
+            RedirectAttributes redirectAttributes,
             Model model) {
-        UUID uuid = UUID.fromString(electionId);
-        Election election = electionService.getElectionById(uuid);
 
-        if (election.getStatus() != ElectionStatus.CLOSED) {
-            model.addAttribute("message", "The election has not ended yet.");
-            model.addAttribute("messageType", "danger");
-            return "redirect:/api/elections/dashboard";  // Redirect if election is still ongoing or upcoming
+        try {
+            ElectionResultDTO electionResults = electionService.getElectionResult(electionId);
+            model.addAttribute("electionResult", electionResults);
+            model.addAttribute("message", "Election results retrieved successfully");
+            model.addAttribute("messageType", "success");
+
+            return "util/election_results";
+        } catch (Exception e){
+            redirectAttributes.addFlashAttribute("message", (e.getMessage() != null) ? e.getMessage() : "System error occurred");
+            redirectAttributes.addFlashAttribute("messageType", "danger");
+            return "redirect:/api/elections/dashboard";
         }
-
-        // Fetch election results
-//        List<Result> results = resultService.getResultsForElection(uuid);  // Assuming you have a result service
-//        model.addAttribute("election", election);
-//        model.addAttribute("results", results);
-
-        return "util/election_results";  // View to display results
     }
 
     @PostMapping("/toggle_election_hide")

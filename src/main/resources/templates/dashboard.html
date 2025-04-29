@@ -77,7 +77,7 @@
 
                     <!-- CLOSED: View Results -->
                     <a th:if="${election.status.name() == 'CLOSED'}"
-                       th:href="@{/api/elections/results(electionId=${election.id})}"
+                       th:href="@{/api/elections/{electionId}/results(electionId=${election.id})}"
                        class="btn btn-secondary">
                         View Results
                     </a>
@@ -91,6 +91,8 @@
         <div th:if="${!election.isHidden}">
             <div class="card-body">
                 <p><strong>Description:</strong> <span th:text="${election.description}"></span></p>
+                <p th:if="${election.max_voters_count != null}"><strong>Max Voters:</strong> <span th:text="${election.max_voters_count}"></span></p>
+                <p th:if="${election.voters_count != null}"><strong>Current Voters:</strong> <span th:text="${election.voters_count}"></span></p>
             </div>
 
             <div class="card-footer d-flex justify-content-between flex-wrap">

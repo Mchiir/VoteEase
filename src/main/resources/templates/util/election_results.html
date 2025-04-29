@@ -2,31 +2,100 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Election Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Ensures mobile responsiveness -->
+
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .winner {
+            font-weight: bold;
+            color: green;
+        }
+
+        @media (max-width: 576px) {
+            h2, h5 {
+                font-size: 1.2rem;
+            }
+            .card-body p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
-<body class="container mt-5">
+<body class="container py-4">
 
-<h2 class="text-primary">Results for <span th:text="${election.title}"></span></h2>
-
-<div class="my-4">
-    <h4 class="text-info">Election Results</h4>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Candidate</th>
-            <th>Votes</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="result : ${results}">
-            <td th:text="${result.candidateName}"></td>
-            <td th:text="${result.voteCount}"></td>
-        </tr>
-        </tbody>
-    </table>
+<!-- Back Button -->
+<div class="mb-3">
+    <a th:href="@{/api/elections/dashboard}" class="btn btn-outline-secondary">
+        &larr; Back to Dashboard
+    </a>
 </div>
 
-<a th:href="@{/api/elections/dashboard}" class="btn btn-secondary mt-4">Back to Dashboard</a>
+<!-- Alert Message -->
+<div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert">
+    <p class="mb-0" th:text="${message}"></p>
+</div>
 
+<!-- Election Title -->
+<h2 class="text-center text-primary mb-4">
+    Results from: <span th:text="${electionResult.title}">Election Title</span> voting
+</h2>
+
+<!-- Election Info Card -->
+<div class="card shadow-sm mb-5">
+    <div class="card-body">
+        <h5 class="card-title text-info">Election Summary</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Description:</strong> <span th:text="${electionResult.description}"></span></p>
+                <p><strong>Guider:</strong> <span th:text="${electionResult.guiderName}"></span></p>
+                <p><strong>Status:</strong> <span th:text="${electionResult.status}"></span></p>
+            </div>
+            <div class="col-md-6">
+                <p th:if="${electionResult.formatedStartTime != null}"><strong>Start Time:</strong> <span th:text="${electionResult.formatedStartTime}"></span></p>
+                <p th:if="${electionResult.formatedEndTime != null}"><strong>End Time:</strong> <span th:text="${electionResult.formatedEndTime}"></span></p>
+                <p><strong>Voters:</strong>
+                    <span th:text="${electionResult.votersCount}"></span> /
+                    <span th:text="${electionResult.maxVotersCount}"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Results by Post -->
+<div th:each="entry : ${electionResult.postsWithCandidates}" class="mb-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0" th:text="${entry.key}">Post Name</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Votes</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="candidate : ${entry.value}"
+                        th:classappend="${candidate.winner} ? 'winner':''">
+                        <td th:text="${candidate.name}"></td>
+                        <td th:text="${candidate.voteCount}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer >
+    &copy; 2025 @Mchiir. All rights reserved.
+</footer>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
