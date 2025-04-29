@@ -80,7 +80,7 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <!-- Edit Button -->
-                    <a th:href="@{/api/candidate/edit(candidateId=${candidate.id})}" class="btn btn-sm btn-primary">
+                    <a th:if="${false}" th:href="@{/api/candidate/edit(candidateId=${candidate.id})}" class="btn btn-sm btn-primary">
                         Edit
                     </a>
 
@@ -131,9 +131,10 @@
         </form>
     </div>
 
+    <!-- Edit candidate modal -->
+
 <footer>
     &copy; 2025 @Mchiir. All rights reserved.
 </footer>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-</body>
 </html>

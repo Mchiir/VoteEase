@@ -81,6 +81,9 @@ public class Election {
     @Column(name = "is_hidden", nullable = false)
     private boolean isHidden = false;  // Default to false (not deleted)
 
+//    @Column(nullable = false)
+//    private Date date_created = new Date();
+
     public boolean getIsHidden() { return isHidden; }
     public void setIsHidden(boolean isHidden) { this.isHidden = isHidden; }
 }

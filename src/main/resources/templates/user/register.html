@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
     <style>
         body {
             background: linear-gradient(to right, #e0f7fa, #ffffff);
@@ -14,27 +15,29 @@
             max-width: 500px;
             width: 90%;
         }
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #f8f9fa;
-            text-align: center;
-            padding: 0.5rem 0;
-            font-size: 0.9rem;
-            color: #6c757d;
+
+        .home-btn-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
         }
     </style>
 </head>
 <body class="d-flex flex-column justify-content-center align-items-center min-vh-100">
+
+<!-- Home Button -->
+<div class="home-btn-container">
+    <a href="/" class="btn btn-custom btn-sm">
+        <i class="bi bi-house-door"></i> Home
+    </a>
+</div>
 
 <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert">
     <p th:text="${message}"></p>
 </div>
 
 <div class="register-card bg-white shadow-lg rounded p-4">
-    <h2 class="text-center text-primary fw-bold mb-4">Create an Account</h2>
+        <h2 class="text-center text-primary fw-bold mb-4">Create an Account</h2>
 
     <form id="registerForm" th:object="${userDTO}" th:action="@{/api/auth/register}" method="post">
         <div class="mb-3">

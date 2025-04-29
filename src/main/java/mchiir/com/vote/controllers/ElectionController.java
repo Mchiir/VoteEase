@@ -137,7 +137,7 @@ public class ElectionController {
 
             electionService.createElection(election);
 
-            redirectAttributes.addFlashAttribute("message", "Election created successfully!");
+            redirectAttributes.addFlashAttribute("message", "Election created successfully!, please consider adding candidates");
             redirectAttributes.addFlashAttribute("messageType", "success");
             return "redirect:/api/elections/dashboard";
         } catch (Exception e) {

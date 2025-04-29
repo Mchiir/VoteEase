@@ -111,7 +111,6 @@ public class ElectionServiceImpl implements ElectionService {
     @Override
     @Transactional
     public void saveVote(VoteDTOFinal voteDTO) {
-        try {
             // Step 1: Retrieve the election using the electionId from the voteDTO
             Election election = electionRepository.findById(voteDTO.getElectionId())
                     .orElseThrow(() -> new RuntimeException("Election not found"));
@@ -138,10 +137,6 @@ public class ElectionServiceImpl implements ElectionService {
                 // Step 5: Save the updated candidate
                 candidateService.updateCandidate(candidateId, candidate);
             }
-
-        } catch (Exception e) {
-            throw new RuntimeException("Error saving vote", e);
-        }
     }
 
     @Override

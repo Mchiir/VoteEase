@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Election OTC</title>
+    <title>Election code</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 </head>
 <body class="container text-center mt-5">
 
-<h2 class="text-primary">Election OTC Generated</h2>
-<p class="lead">Share this One-Time Code (OTC) with voters to allow voting for election:</p>
-<h4 th:text="${electionTitle}" class="text-info fw-bold"></h4>
+<h2 class="text-primary">Election Code Generated for election </h2>
+<p class="lead">Share this Election Code with voters to allow joining the election:</p>
+<h4>Election : <span th:text="electionTitle" class="text-info fw-bold"></span></h4>
 
 <div class="my-4">
     <input id="otcInput" type="text" class="form-control form-control-lg text-center text-success fw-bold"
            th:value="${otc}" readonly style="font-size: 2rem;">
-    <button class="btn btn-outline-primary mt-2" onclick="copyToClipBoard('otcInput', 'copyMessage')">Copy OTC</button>
+    <button class="btn btn-outline-primary mt-2" onclick="copyToClipBoard('otcInput', 'copyMessage')">Copy code</button>
     <div id="copyMessage" class="text-muted mt-2" style="display: none;">Copied to clipboard!</div>
 </div>
 
-<a th:href="@{/api/elections/dashboard}" class="btn btn-secondary mt-4">Back to Dashboard</a>
+<a th:href="@{/api/elections/dashboard}" class="btn btn-secondary mt-4">&larr; Back to Dashboard</a>
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/main.js}"></script>
