@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -52,16 +53,8 @@ public class ElectionController {
         try {
             List<Election> elections = electionService.getAllByGuider(guider);
 
-            // Sort by startTime descending
-            elections.sort((e1, e2) -> {
-                // Handle null cases first
-                if (e1.getStartTime() == null && e2.getStartTime() == null) return 0;
-                if (e1.getStartTime() == null) return 1;  // Put nulls at end
-                if (e2.getStartTime() == null) return -1; // Put nulls at end
-
-                // Both dates exist - compare in reverse order (newest first)
-                return e2.getStartTime().compareTo(e1.getStartTime());
-            });
+            // Sort by creation Time ascending (oldest - newest)
+            elections.sort(Comparator.comparing(Election::getDate_created));
 
             // Format and set formatted time as Strings
             elections.forEach(election -> {
@@ -134,6 +127,8 @@ public class ElectionController {
             election.setTitle(electionDTO.getTitle());
             election.setDescription(electionDTO.getDescription());
             election.setMax_voters_count(electionDTO.getMaxVotersCount());
+            election.setPosts(electionDTO.getPosts());
+            election.setParties(electionDTO.getParties());
 
             electionService.createElection(election);
 

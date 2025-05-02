@@ -10,6 +10,8 @@
 <body class="bg-light">
 
 <div class="container py-5">
+    <p th:class="'text-' + ${messageType} + ' mt-3' text-center" th:if="${message}" th:text="${message}"></p>
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm">
@@ -45,11 +47,33 @@
                             <input type="number" th:field="*{maxVotersCount}" class="form-control" id="votersCount" min="1" placeholder="Min 10 and max 500" required>
                         </div>
 
+                        <!-- Posts Section -->
+                        <div class="mb-3">
+                            <label for="posts" class="form-label">Posts</label>
+                            <div id="postsContainer">
+                                <div class="input-group mb-2">
+                                    <input type="text" name="posts" class="form-control" placeholder="Enter a post" required>
+                                    <button type="button" class="btn btn-danger btn-sm remove-btn">X</button>
+                                </div>
+                            </div>
+                            <button type="button" id="addPostBtn" class="btn btn-custom">Add  Post</button>
+                        </div>
+
+                        <!-- Parties Section -->
+                        <div class="mb-3">
+                            <label for="parties" class="form-label">Parties</label>
+                            <div id="partiesContainer">
+                                <div class="input-group mb-2">
+                                    <input type="text" name="parties" class="form-control" placeholder="Enter a party name">
+                                    <button type="button" class="btn btn-danger btn-sm remove-btn">X</button>
+                                </div>
+                            </div>
+                            <button type="button" id="addPartyBtn" class="btn btn-custom">Add Party</button>
+                        </div>
+
                         <div class="d-grid">
                             <button type="submit" class="btn btn-success">Create Election</button>
                         </div>
-
-                        <p th:class="'text-' + ${messageType} + ' mt-3'" th:if="${message}" th:text="${message}"></p>
                     </form>
 
                 </div>
@@ -61,6 +85,59 @@
 <footer>
     &copy; 2025 @Mchiir. All rights reserved.
 </footer>
+<script>
+    // Add a new post field dynamically
+    document.getElementById('addPostBtn').addEventListener('click', function() {
+        const postContainer = document.getElementById('postsContainer');
+        const newPostDiv = document.createElement('div');
+        newPostDiv.className = 'input-group mb-2';
+        newPostDiv.innerHTML = `
+            <input type="text" name="posts" class="form-control" placeholder="Enter a post" required>
+            <button type="button" class="btn btn-danger btn-sm remove-btn">X</button>
+        `;
+        postContainer.appendChild(newPostDiv);
+
+        // Add delete functionality for the new post
+        newPostDiv.querySelector('.remove-btn').addEventListener('click', function() {
+            postContainer.removeChild(newPostDiv);
+        });
+
+        // Add edit functionality for the new post
+        newPostDiv.querySelector('.edit-btn').addEventListener('click', function() {
+            const inputField = newPostDiv.querySelector('input');
+            const currentValue = inputField.value;
+            const newValue = prompt("Edit the post:", currentValue);
+            if (newValue !== null && newValue !== "") {
+                inputField.value = newValue;
+            }
+        });
+    });
+
+    // Add a new party field dynamically
+    document.getElementById('addPartyBtn').addEventListener('click', function() {
+        const partyContainer = document.getElementById('partiesContainer');
+        const newPartyDiv = document.createElement('div');
+        newPartyDiv.className = 'input-group mb-2';
+        newPartyDiv.innerHTML = `
+            <input type="text" name="parties" class="form-control" placeholder="Enter a party name">
+            <button type="button" class="btn btn-danger btn-sm remove-btn">X</button>
+        `;
+        partyContainer.appendChild(newPartyDiv);
+
+        // Add delete functionality for the new party
+        newPartyDiv.querySelector('.remove-btn').addEventListener('click', function() {
+            partyContainer.removeChild(newPartyDiv);
+        });
+    });
+
+    // Add delete functionality for already existing posts or parties
+    document.querySelectorAll('.remove-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const container = btn.closest('.input-group');
+            container.parentElement.removeChild(container);
+        });
+    });
+</script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

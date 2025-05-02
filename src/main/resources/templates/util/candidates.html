@@ -73,7 +73,7 @@
                     <h5 class="card-title" th:text="${candidate.name}">Candidate Name</h5>
                     <p class="card-text mb-1"><strong>Email:</strong> <span th:text="${candidate.email}">email@example.com</span></p>
                     <p class="card-text mb-1" th:if="${candidate.party != null}"><strong>Party:</strong>
-                        <span th:text="${candidate.party != null ? candidate.party : 'Independent'}">Party</span>
+                        <span th:text="${candidate.party}"></span>
                     </p>
                     <p class="card-text mb-1" th:if="${candidate.post != null}"><strong>Post:</strong> <span th:text="${candidate.post}">Post</span></p>
                     <p class="card-text"><strong>Votes:</strong> <span th:text="${candidate.votes}">0</span></p>
@@ -114,14 +114,23 @@
                 </div>
             </div>
 
+            <!-- Dropdown for selecting Post -->
             <div class="row mb-3">
                 <div class="col">
-                    <input type="text" name="party" class="form-control" placeholder="Party (Optional)"
-                           th:field="*{party}">
+                    <select class="form-control" th:field="*{post}" required>
+                        <option value="" selected>Choose Post</option>
+                        <option th:each="post : ${currentElection.posts}" th:value="${post}" th:text="${post}"></option>
+                    </select>
                 </div>
+            </div>
+
+            <!-- Party section (display if there are valid parties in the election) -->
+            <div class="row mb-3" th:if="${currentElection.parties != null and currentElection.parties.size() > 0}">
                 <div class="col">
-                    <input type="text" name="post" class="form-control" placeholder="Post (e.g. President)"
-                           th:field="*{post}" required>
+                    <select class="form-control" th:field="*{party}">
+                        <option value="" selected>Choose Party (Optional)</option>
+                        <option th:each="party : ${currentElection.parties}" th:value="${party}" th:text="${party}"></option>
+                    </select>
                 </div>
             </div>
 

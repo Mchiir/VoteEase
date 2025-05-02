@@ -11,6 +11,7 @@ import mchiir.com.vote.models.enums.ElectionStatus;
 import mchiir.com.vote.models.roles.Candidate;
 import mchiir.com.vote.models.roles.Guider;
 import mchiir.com.vote.models.roles.Voter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
@@ -37,6 +38,14 @@ public class Election {
 
     @Column(columnDefinition = "TEXT", length = 255, nullable = false)
     private String description;
+
+    @Column(columnDefinition = "TEXT", nullable = true)
+    @Convert(converter = StringListConverter.class)
+    private List<String> posts;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
+    @Convert(converter = StringListConverter.class)
+    private List<String> parties;
 
     @Column(name = "otc", unique = true, length = 7)
     private String otc;
@@ -81,8 +90,9 @@ public class Election {
     @Column(name = "is_hidden", nullable = false)
     private boolean isHidden = false;  // Default to false (not deleted)
 
-//    @Column(nullable = false)
-//    private Date date_created = new Date();
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    private Date date_created;
 
     public boolean getIsHidden() { return isHidden; }
     public void setIsHidden(boolean isHidden) { this.isHidden = isHidden; }
