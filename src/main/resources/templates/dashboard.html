@@ -29,9 +29,10 @@
 </nav>
 
 <div class="container mt-3">
-    <!-- Success or Error Message -->
-    <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert">
-        <p th:text="${message}"></p>
+    <!-- Flash Message -->
+    <div th:if="${message}" th:class="'alert alert-' + ${messageType} + ' alert-dismissible fade show'" role="alert">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
     <!-- Create new election -->
@@ -133,7 +134,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <p><strong>Election Code:</strong></p>
                 <input id="electionCodeInput" type="text" class="form-control text-center fw-bold mb-3" readonly style="font-size: 1.5rem;">
 
                 <!-- Copy button -->

@@ -10,7 +10,7 @@
 <body class="bg-light">
 
 <div class="container py-5">
-    <p th:class="'text-' + ${messageType} + ' mt-3' text-center" th:if="${message}" th:text="${message}"></p>
+    <p th:class="'text-' + ${messageType} + ' mt-3 text-center'" th:if="${message}" th:text="${message}"></p>
 
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -31,7 +31,7 @@
                     </div>
 
                     <!-- Election Form -->
-                    <form th:action="@{/api/elections/create}" th:object="${electionDTO}" method="post">
+                    <form th:action="@{/api/elections/create}" id="electionForm" th:object="${electionDTO}" method="post">
                         <div class="mb-3">
                             <label for="title" class="form-label">Election Title</label>
                             <input type="text" th:field="*{title}" class="form-control" id="title" placeholder="e.g. Student Council 2025" required>
@@ -86,24 +86,38 @@
     &copy; 2025 @Mchiir. All rights reserved.
 </footer>
 <script>
-    // Add a new post field dynamically
-    document.getElementById('addPostBtn').addEventListener('click', function() {
-        const postContainer = document.getElementById('postsContainer');
-        const newPostDiv = document.createElement('div');
-        newPostDiv.className = 'input-group mb-2';
-        newPostDiv.innerHTML = `
-            <input type="text" name="posts" class="form-control" placeholder="Enter a post" required>
-            <button type="button" class="btn btn-danger btn-sm remove-btn">X</button>
-        `;
-        postContainer.appendChild(newPostDiv);
+        document.getElementById("electionForm").addEventListener("submit", function (e) {
+        const votersCount = document.getElementById("votersCount").value;
 
-        // Add delete functionality for the new post
-        newPostDiv.querySelector('.remove-btn').addEventListener('click', function() {
-            postContainer.removeChild(newPostDiv);
+        if (votersCount > 500 || votersCount < 10) {
+            e.preventDefault(); // Stop form submission
+            alert("The voters count must be atleast 10, and less than 500");
+            // Optionally highlight the fields
+            document.getElementById("votersCount").classList.add("is-invalid");
+        } else {
+            // Remove invalid classes if everything is okay
+            document.getElementById("votersCount").classList.remove("is-invalid");
+        }
         });
 
-        // Add edit functionality for the new post
-        newPostDiv.querySelector('.edit-btn').addEventListener('click', function() {
+// Add a new post field dynamically
+document.getElementById('addPostBtn').addEventListener('click', function() {
+const postContainer = document.getElementById('postsContainer');
+const newPostDiv = document.createElement('div');
+newPostDiv.className = 'input-group mb-2';
+newPostDiv.innerHTML = `
+<input type="text" name="posts" class="form-control" placeholder="Enter a post" required>
+<button type="button" class="btn btn-danger btn-sm remove-btn">X</button>
+`;
+postContainer.appendChild(newPostDiv);
+
+// Add delete functionality for the new post
+newPostDiv.querySelector('.remove-btn').addEventListener('click', function() {
+postContainer.removeChild(newPostDiv);
+});
+
+// Add edit functionality for the new post
+newPostDiv.querySelector('.edit-btn').addEventListener('click', function() {
             const inputField = newPostDiv.querySelector('input');
             const currentValue = inputField.value;
             const newValue = prompt("Edit the post:", currentValue);

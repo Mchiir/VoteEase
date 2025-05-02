@@ -24,5 +24,5 @@ public interface ElectionService {
     String generateOtc();
     Election getElectionByOtc(String otc);
     void saveVote(VoteDTOFinal vote);
-    ElectionResultDTO getElectionResult(UUID electionId);
+    ElectionResultDTO getElectionResultById(UUID electionId);
 }

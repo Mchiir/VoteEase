@@ -55,14 +55,15 @@
 
 <!-- Page Header -->
 <div class="container page-header">
-    <h2>Manage Your Candidates</h2>
+    <h2>Manage Candidates</h2>
 </div>
 
 <div class="container candidate-section mb-5">
 
-    <!-- Message Alert -->
-    <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert">
-        <p th:text="${message}"></p>
+    <!-- Flash Message -->
+    <div th:if="${message}" th:class="'alert alert-' + ${messageType} + ' alert-dismissible fade show'" role="alert">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
     <!-- Candidate Cards -->

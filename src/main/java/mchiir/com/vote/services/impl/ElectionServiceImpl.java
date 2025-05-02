@@ -61,6 +61,8 @@ public class ElectionServiceImpl implements ElectionService {
         existingElection.setEndTime(election.getEndTime());
         existingElection.setStatus(election.getStatus());
         existingElection.setIsHidden(election.getIsHidden());
+        existingElection.setFormatedStartTime(election.getFormatedStartTime());
+        existingElection.setFormatedEndTime(election.getFormatedEndTime());
 
         return electionRepository.save(existingElection);
     }
@@ -140,7 +142,7 @@ public class ElectionServiceImpl implements ElectionService {
     }
 
     @Override
-    public ElectionResultDTO getElectionResult(UUID electionId) {
+    public ElectionResultDTO getElectionResultById(UUID electionId) {
         Map<String, List<CandidateResult>> postsWithCandidates = new HashMap<>();
 
         Election election = electionRepository.findById(electionId)
@@ -156,9 +158,7 @@ public class ElectionServiceImpl implements ElectionService {
         List<Candidate> candidates = election.getCandidates();
 
         // Get all unique posts
-        Set<String> allPosts = candidates.stream()
-                .map(Candidate::getPost)
-                .collect(Collectors.toSet());
+        Set<String> allPosts = new HashSet<>(election.getPosts());
 
         for (String post : allPosts) {
             List<CandidateResult> candidateResults = candidates.stream()

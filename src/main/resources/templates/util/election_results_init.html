@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enroll to Vote</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container d-flex flex-column justify-content-center align-items-center vh-100">
+
+    <!-- Card -->
+    <div class="card p-4 shadow w-100" style="max-width: 400px;">
+
+        <h4 class="mb-4 text-center text-primary">Enter election code to view results</h4>
+
+        <!-- Home Button -->
+        <div class="mb-3 text-start">
+            <a href="/api/voter/" class="btn btn-custom btn-sm">Home</a>
+        </div>
+
+        <!-- Message Alert -->
+        <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert">
+            <p th:text="${message}"></p>
+        </div>
+
+        <!-- OTC Enrollment Form -->
+        <form th:action="@{/api/voter/get_results}" method="post">
+
+            <div class="mb-3">
+                <label for="otc" class="form-label">Election code</label>
+                <input type="text" id="otc" name="electionCode" class="form-control" placeholder="Enter your Election code" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">View results</button>
+
+        </form>
+    </div>
+
+</div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

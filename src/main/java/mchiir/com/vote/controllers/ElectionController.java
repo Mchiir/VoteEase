@@ -19,12 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Controller
 @RequestMapping("/api/elections")
@@ -55,20 +50,6 @@ public class ElectionController {
 
             // Sort by creation Time ascending (oldest - newest)
             elections.sort(Comparator.comparing(Election::getDate_created));
-
-            // Format and set formatted time as Strings
-            elections.forEach(election -> {
-                if (election.getStartTime() != null) {
-                    election.setFormatedStartTime(
-                            dateFormatingServise.getFormattedDate("EEE dd/MM/yyyy HH:mm:ss", election.getStartTime())
-                    );
-                }
-                if (election.getEndTime() != null) {
-                    election.setFormatedEndTime(
-                            dateFormatingServise.getFormattedDate("EEE dd/MM/yyyy HH:mm:ss", election.getEndTime())
-                    );
-                }
-            });
 
             if(elections.isEmpty()){
                 model.addAttribute("message", "No Elections created yet");
@@ -127,8 +108,33 @@ public class ElectionController {
             election.setTitle(electionDTO.getTitle());
             election.setDescription(electionDTO.getDescription());
             election.setMax_voters_count(electionDTO.getMaxVotersCount());
-            election.setPosts(electionDTO.getPosts());
-            election.setParties(electionDTO.getParties());
+
+            election.setPosts(
+                    electionDTO.getPosts() == null ?
+                            new ArrayList<>() :
+                            new ArrayList<>(
+                                    new LinkedHashSet<>(
+                                            electionDTO.getPosts()
+                                                    .stream()
+                                                    .map(String::trim)
+                                                    .filter(s -> !s.isEmpty())
+                                                    .toList()
+                                    )
+                            )
+            );
+            election.setParties(
+                    electionDTO.getParties() == null ?
+                            new ArrayList<>() :
+                            new ArrayList<>(
+                                    new LinkedHashSet<>(
+                                            electionDTO.getParties()
+                                                    .stream()
+                                                    .map(String::trim)
+                                                    .filter(s -> !s.isEmpty())
+                                                    .toList()
+                                    )
+                            )
+            );
 
             electionService.createElection(election);
 
@@ -153,10 +159,17 @@ public class ElectionController {
 
         election.setOtc(otc);
         election.setStatus(ElectionStatus.ONGOING);
-        election.setStartTime(new Date());
+
+        var starting_time = new Date();
+        election.setStartTime(starting_time);
+
+        election.setFormatedStartTime(
+                dateFormatingServise.getFormattedDate("EEE dd/MM/yyyy HH:mm:ss", starting_time)
+        );
+
         electionService.updateElection(uuid, election);
 
-        model.addAttribute("electionTitle", election.getTitle());
+//        model.addAttribute("electionTitle", election.getTitle());
         model.addAttribute("otc", otc);
 
         return "util/otc";
@@ -170,7 +183,13 @@ public class ElectionController {
         Election election = electionService.getElectionById(uuid);
 
         election.setStatus(ElectionStatus.CLOSED);
-        election.setEndTime(new Date());
+
+        var ending_time = new Date();
+        election.setEndTime(ending_time);
+        election.setFormatedEndTime(
+                dateFormatingServise.getFormattedDate("EEE dd/MM/yyyy HH:mm:ss", ending_time)
+        );
+
         electionService.updateElection(uuid, election);
 
         redirectAttributes.addFlashAttribute("message", "Election ended successfully!");
@@ -186,7 +205,8 @@ public class ElectionController {
             Model model) {
 
         try {
-            ElectionResultDTO electionResults = electionService.getElectionResult(electionId);
+            ElectionResultDTO electionResults = electionService.getElectionResultById(electionId);
+
             model.addAttribute("electionResult", electionResults);
             model.addAttribute("message", "Election results retrieved successfully");
             model.addAttribute("messageType", "success");

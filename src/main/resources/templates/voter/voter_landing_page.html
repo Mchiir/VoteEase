@@ -67,14 +67,10 @@
 </head>
 <body class="d-flex flex-column justify-content-center align-items-center min-vh-100">
 
-<header>
-    <h1>Welcome to <span class="text-primary">VoteEase</span></h1>
-</header>
-
 <!-- Message Area -->
-<!--<div class="message-container">-->
-<!--    <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert" th:text="${message}"></div>-->
-<!--</div>-->
+<div class="message-container">
+    <div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert" th:text="${message}"></div>
+</div>
 
 <!-- Dashboard Card -->
 <div class="dashboard-card text-center">
@@ -82,13 +78,13 @@
 
     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-3">
         <!-- Create New Election Button -->
-        <a href="/api/elections/dashboard" class="btn btn-success px-4 me-sm-2">
-            <i class="bi bi-plus-circle me-1"></i>Create an election!
+        <a href="/api/vote/enroll" class="btn btn-success px-4 me-sm-2">
+            <i class="bi bi-plus-circle me-1"></i>Vote now!
         </a>
 
         <!-- Vote in an Election Button -->
-        <a href="/api/voter/" class="btn btn-primary px-4">
-            <i class="bi bi-box-arrow-in-right me-1"></i>Join an election
+        <a href="/api/voter/get_results_view" class="btn btn-primary px-4">
+            <i class="bi bi-box-arrow-in-right me-1"></i>View voting results
         </a>
     </div>
 </div>

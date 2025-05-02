@@ -50,6 +50,7 @@ public class VoteController {
             redirectAttributes.addFlashAttribute("message", (e.getMessage() != null) ? e.getMessage() : "A system error occurred");
             redirectAttributes.addFlashAttribute("messageType", "danger");
         }
+
         return "redirect:/api/vote/enroll";
     }
 
@@ -65,8 +66,9 @@ public class VoteController {
         }
 
         ElectionDTOFinal cleanElection = modelMapper.map(election, ElectionDTOFinal.class);
+        cleanElection.setCandidateName(election.getGuider().getName());
 
-        Map<String, List<Candidate>> postsWithCandidates = cleanElection.getCandidates().stream()
+        Map<String, List<Candidate>> postsWithCandidates = election.getCandidates().stream()
                 .collect(Collectors.groupingBy(Candidate::getPost));
 
         // Only create a new VoteDTOFinal if not already present (important when redirecting after validation errors)

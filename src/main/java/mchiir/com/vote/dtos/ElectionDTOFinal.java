@@ -22,14 +22,14 @@ public class ElectionDTOFinal implements Serializable {
     @NotBlank
     private String description;
 
+    @NotBlank
+    private String candidateName;
+
     @NotNull
     private Date startTime;
 
     @NotNull
     private Date endTime;
-
-    @NotNull
-    private List<Candidate> candidates;
 
     @NotNull
     private ElectionStatus status;

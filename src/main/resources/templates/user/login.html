@@ -32,9 +32,12 @@
     </a>
 </div>
 
-<div th:if="${message}" th:class="'alert alert-' + ${messageType}" role="alert">
-    <p th:text="${message}"></p>
+<!-- Flash Message -->
+<div th:if="${message}" th:class="'alert alert-' + ${messageType} + ' alert-dismissible fade show'" role="alert">
+    <span th:text="${message}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
+
 <div class="login-card bg-white shadow-lg rounded p-4">
         <h2 class="text-center text-primary fw-bold mb-4">Login to VoteEase</h2>
 
