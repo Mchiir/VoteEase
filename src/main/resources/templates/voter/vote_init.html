@@ -13,7 +13,7 @@
     <!-- Card -->
     <div class="card p-4 shadow w-100" style="max-width: 400px;">
 
-        <h4 class="mb-4 text-center text-primary">Enter election code to view results</h4>
+        <h4 class="mb-4 text-center text-primary">Enroll to Vote</h4>
 
         <!-- Home Button -->
         <div class="mb-3 text-start">
@@ -26,14 +26,14 @@
         </div>
 
         <!-- OTC Enrollment Form -->
-        <form th:action="@{/api/voter/get_results}" method="post">
+        <form th:action="@{/api/vote/enroll}" method="post">
 
             <div class="mb-3">
                 <label for="otc" class="form-label">Election code</label>
-                <input type="text" id="otc" name="electionCode" class="form-control" placeholder="Enter your Election code" required>
+                <input type="text" id="otc" name="otc" class="form-control" placeholder="Enter your Election code" required>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">View results</button>
+            <button type="submit" class="btn btn-primary w-100">Enroll</button>
 
         </form>
     </div>

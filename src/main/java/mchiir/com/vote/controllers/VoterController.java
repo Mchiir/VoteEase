@@ -34,6 +34,17 @@ public class VoterController {
         return "voter/voter_landing_page";
     }
 
+    @GetMapping("/enroll")
+    public String enroll(Model model) {
+
+        model.addAttribute("message", model.containsAttribute("message") ?
+                model.getAttribute("message") : "Please enter the shared election code");
+        model.addAttribute("messageType", model.containsAttribute("messageType") ?
+                model.getAttribute("messageType") : "info");
+
+        return "voter/vote_init";
+    }
+
     @GetMapping("/get_results_view")
     public String getResults(Model model) {
 
@@ -42,7 +53,7 @@ public class VoterController {
         model.addAttribute("messageType", model.containsAttribute("messageType") ?
                 model.getAttribute("messageType") : "info");
 
-        return "util/election_results_init";
+        return "voter/election_results_init";
     }
 
     @GetMapping("/{electionId}/get_results")
