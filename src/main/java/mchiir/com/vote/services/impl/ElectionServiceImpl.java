@@ -119,9 +119,11 @@ public class ElectionServiceImpl implements ElectionService {
 
             int maxVoters = election.getMax_voters_count();
             int current_voters = election.getVoters_count();
-            if(current_voters >= maxVoters) {
+            if(current_voters >= maxVoters)
                 throw new IllegalStateException("Maximum number of voters has been reached for this election.");
-            }
+            if(election.getStatus() != ElectionStatus.ONGOING)
+                throw new SecurityException("The election is not active!");
+
 
             election.setVoters_count(current_voters + 1);
 
