@@ -32,7 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
-.env
+src/main/resources/.env
+env.properties
 application.properties
 input.txt
 src/main/resources/static/css

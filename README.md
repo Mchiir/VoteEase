@@ -38,6 +38,10 @@ VoteEase is a complete online voting system built with **Spring Boot** and **Thy
 ## Resources used
 
 - [Spring Security](https://www.youtube.com/watch?v=X7pGCmVxx10&t=689s)
+- [Connecting to Neon](https://neon.tech/docs/guides/java)
+- [Hiding cridentials](https://hackernoon.com/how-to-hide-credentials-in-spring-boot)
+- [Docker base file](https://medium.com/@saygiligozde/using-docker-compose-with-spring-boot-and-postgresql-235031106f9f)
+- [Dockerize demo](https://github.com/Mchiir/Java/blob/testdocker-java)
 
 ## 📸 Application Workflow (Screenshots)
 

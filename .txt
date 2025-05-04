@@ -1,0 +1,13 @@
+docker ps -a
+docker login -u username
+
+
+docker-compose down
+docker-compose up --build -d
+docker tag voteease-app:latest mchiir/vote_ease_app:latest
+docker push mchiir/vote_ease_app:latest
+
+Docker hub url: docker.io/mchiir/vote_ease_app:latest
+format: docker.io/USERNAME/REPOSITORY:TAG
+
+docker pull mchiir/vote_ease_app:latest

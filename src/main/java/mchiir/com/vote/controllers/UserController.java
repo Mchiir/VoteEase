@@ -1,7 +1,5 @@
 package mchiir.com.vote.controllers;
 
-import io.github.cdimascio.dotenv.Dotenv;
-import lombok.AllArgsConstructor;
 import mchiir.com.vote.dtos.UserDTO;
 import mchiir.com.vote.models.roles.Guider;
 import mchiir.com.vote.repositories.GuiderRepository;
@@ -21,7 +19,6 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private final Dotenv dotenv;
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
@@ -31,7 +28,6 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService =  userService;
-        dotenv = Dotenv.load();
     }
 
     @GetMapping("/login")
