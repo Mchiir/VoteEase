@@ -1,33 +1,38 @@
-# VoteEase - Spring Boot Voting System
+# VoteEase - Online Voting System
 
-VoteEase is a complete online voting system built with **Spring Boot** and **Thymeleaf**, featuring integrated server-side rendering with robust security and real-time functionality.
+**VoteEase** is a full-featured online voting platform built with **Spring Boot**, **Thymeleaf**, and **PostgreSQL**. It supports secure, role-based access control and real-time vote tracking through server-side rendered views.
 
-## 🚀 Features
+---
 
-- **User Authentication** (Session-based security)
-- **Role-based Access Control** (Candidate, Voter, Admin, Election guider)
-- **Secure Voting System** (Prevent duplicate votes)
-- **Real-time Vote Counting** (Thymeleaf live updates)
-- **Audit Logs & Data Integrity**
-- **Template-driven UI** (Server-side rendered views)
+## Features
 
-## 🏗️ Tech Stack
+- User Authentication – Secure session-based login system
+- Role-Based Access Control – Voter, Candidate, Admin, and Election Guider roles
+- One Vote Per Voter Enforcement – Strict vote validation logic
+- Live Results Rendering – Real-time vote counting via SSR
+- Audit Logging – Persistent records for transparency
+- Templated UI – Modular Thymeleaf-based layout and dynamic rendering
 
-### **Server Components**
+---
 
-- **Spring Boot** - Core application framework
-- **Thymeleaf** - Server-side templating engine
-- **Spring Security** - Authentication & authorization
-- **Spring Data JPA (Hibernate)** - Database ORM layer
-- **PostgreSQL** - Persistent data storage
-- **Lombok** - Boilerplate reduction
+## Architecture and Tech Stack
 
-### UI Layer
+### Backend
 
-- **Bootstrap 5** - Responsive frontend components
-- **Thymeleaf Fragments** - Reusable UI templates
-- **Spring MVC** - Controller-driven views
-- **Form Binding** - Thymeleaf + Spring validation
+- Spring Boot – Core application framework
+- Spring MVC – REST + server-side view handling
+- Spring Security – Role-based authentication and authorization
+- Spring Data JPA (Hibernate) – ORM for PostgreSQL
+- Lombok – Reduces boilerplate in Java classes
+
+### Frontend (SSR)
+
+- Thymeleaf – Template engine for rendering dynamic views
+- Bootstrap 5 – Responsive layout and design
+- Thymeleaf Fragments – For modular templates
+- Spring Validation – Form validation using annotations
+
+---
 
 ### Prerequisites
 
@@ -37,22 +42,22 @@ VoteEase is a complete online voting system built with **Spring Boot** and **Thy
 
 ## Resources used
 
-- [Spring Security](https://www.youtube.com/watch?v=X7pGCmVxx10&t=689s)
-- [Connecting to Neon](https://neon.tech/docs/guides/java)
-- [Hiding cridentials](https://hackernoon.com/how-to-hide-credentials-in-spring-boot)
-- [Docker base file](https://medium.com/@saygiligozde/using-docker-compose-with-spring-boot-and-postgresql-235031106f9f)
-- [Dockerize demo](https://github.com/Mchiir/Java/blob/testdocker-java)
+- [Spring Security - YouTube Guide](https://www.youtube.com/watch?v=X7pGCmVxx10&t=689s)
+- [Connecting to Neon PostgreSQL](https://neon.tech/docs/guides/java)
+- [Hiding Credentials in Spring Boot](https://hackernoon.com/how-to-hide-credentials-in-spring-boot)
+- [Docker with Spring Boot & PostgreSQL](https://medium.com/@saygiligozde/using-docker-compose-with-spring-boot-and-postgresql-235031106f9f)
+- [Dockerize Spring Boot Project Demo](https://github.com/Mchiir/Java/blob/testdocker-java)
 
-## 📸 Application Workflow (Screenshots)
+## Application Workflow (Screenshots)
 
-### 🏠 Main Page
+### Main Page
 
 > Homepage with navigation and basic description  
 > ![Main Page](./images/home1.png)
 
 ---
 
-### 🧑‍💼 Election Creator Flow
+### Election Creator Flow
 
 1. **Login Page**  
    ![Login](./images/guider/1login.png)
@@ -86,7 +91,7 @@ VoteEase is a complete online voting system built with **Spring Boot** and **Thy
 
 ---
 
-### 🗳️ Election Voter Flow
+### Election Voter Flow
 
 1. **Voter Dashboard**  
    ![Voter Dashboard](./images/voter/1voter_dashb.png)
@@ -108,14 +113,14 @@ VoteEase is a complete online voting system built with **Spring Boot** and **Thy
 
 ---
 
-## 📜 License
+## License
 
 MIT License - Feel free to contribute and make Pull Request!
 
-## ✉️ Contact
+## Contact
 
 For any issues, reach out via **[GitHub Issues](https://github.com/Mchiir/voteEase/issues)** or Email **mugishachrispin590@gmail.com**.
 
 ---
 
-🚀 **Happy Coding & Secure Voting!** 🗳️
+**Happy Coding & Secure Voting!**
