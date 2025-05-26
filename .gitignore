@@ -34,9 +34,9 @@ build/
 
 src/main/resources/.env
 env.properties
-application.properties
-input.txt
-src/main/resources/static/css
-src/main/resources/static/js
+#application.properties
+#input.txt
+#src/main/resources/static/css
+#src/main/resources/static/js
 
-src/main/resources/lib/
+#src/main/resources/lib/

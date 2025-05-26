@@ -1,0 +1,32 @@
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.btn-hideBtn {
+    background-color: transparent; /* Transparent background */
+    border: 1px solid #ccc; /* Light border */
+    color: #333; /* Text color */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+.btn-hideBtn:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Light background color on hover */
+}
+
+.btn-custom {
+    background-color: transparent; /* Transparent background */
+    border: 1px solid #ccc; /* Light border */
+    color: #333; /* Text color */
+}
+
+.btn-custom:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Light background color on hover */
+}
