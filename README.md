@@ -113,6 +113,48 @@
 
 ---
 
+### Help Wanted: Improve Role-Based Security
+
+> **Spring Security Role Handling Needs Enhancement**
+
+While the app has basic Spring Security in place, **role-based access control is not fully implemented**. User roles specifically `ADMIN`, and `GUIDER` are required and must be enforced properly across the system.
+
+**Tasks:**
+
+- Enforce access restrictions based on user roles
+- Ensure protected views/controllers validate roles correctly
+- Add default role assignment logic on user registration
+- Optionally add logic for role switching (e.g., `ADMIN` managing users)
+
+**How to contribute:**  
+Fork the repo, work on a new branch like `feature/security-roles`, and submit a pull request when done.
+
+---
+
+## Contributing
+
+Want to improve VoteEase? Here's how:
+
+1. **Fork** the repository
+2. **Create a new feature branch**
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+3. **Commit your changes**
+   ```bash
+   git commit -m "Add your feature"
+   ```
+4. **Push to your branch**
+   ```bash
+   git push origin feature/YourFeature"
+   ```
+5. **Open a pull request on GitHub**
+
+> **Note:** If you're contributing to Spring Security roles, please refer to the  
+> [Help Wanted: Improve Role-Based Security](#help-wanted-improve-role-based-security) section above for specific guidance.
+
+---
+
 ## License
 
 MIT License - Feel free to contribute and make Pull Request!
