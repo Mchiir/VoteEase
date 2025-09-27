@@ -155,6 +155,10 @@ Want to improve VoteEase? Here's how:
 
 ---
 
+## Resources
+
+- [Docker containerization](https://www.geeksforgeeks.org/springboot/how-to-dockerize-a-spring-boot-application-with-maven)
+
 ## License
 
 MIT License - Feel free to contribute and make Pull Request!

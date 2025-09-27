@@ -1,6 +1,6 @@
 package mchiir.com.vote.config;
 
-import mchiir.com.vote.content.MyAppUserService;
+import mchiir.com.vote.context.MyAppUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;

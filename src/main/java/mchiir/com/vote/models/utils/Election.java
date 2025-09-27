@@ -33,10 +33,10 @@ public class Election {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(columnDefinition = "TEXT", length = 255, nullable = false)
+    @Column(columnDefinition = "TEXT", length = 250, nullable = false)
     private String description;
 
     @Column(columnDefinition = "TEXT", nullable = true)

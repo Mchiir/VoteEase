@@ -34,7 +34,7 @@ public class DatabaseInitializer {
                 VALUES (
                     NEW.id,
                     'UPDATING',
-                    'Updated user with role: ' || OLD.role || ', to new with role: ' || NEW.role,
+                    'Updated user with role: ' || OLD.role,
                     NOW()
                 );
                 RETURN NEW;

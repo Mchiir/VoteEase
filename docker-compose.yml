@@ -4,6 +4,7 @@ services:
   app:
     container_name: vote_ease_snapshot
     build: .
+    image: vote_ease_app
     ports:
       - "8010:8080"
     environment:
