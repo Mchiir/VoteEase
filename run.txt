@@ -1,0 +1,15 @@
+Before running below commands, make sure .env file is properly configured.
+
+dcker compose down -v
+
+docker compose up -d --build
+docker logs -f vote_ease_snapshot
+
+docker compose up -d app
+docker compose up -d db
+
+docker compose stop app
+docker compose stop db
+
+docker tag vote_ease_app mchiir/vote_ease_app:latest
+docker push mchiir/vote_ease_app:latest

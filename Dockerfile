@@ -1,13 +1,10 @@
 # the base image
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
 
-# the JAR file path
-ARG JAR_FILE=target/VoteEase-0.0.1-SNAPSHOT.war
+ARG WAR_FILE=target/VoteEase-0.0.1-SNAPSHOT.war
+COPY ${WAR_FILE} application.war
+EXPOSE 8080
 
-# Copy the JAR file from the build context into the Docker image
-COPY ${JAR_FILE} application.jar
-
-CMD apt-get update -y
-
-# Set the default command to run the Java application (2GB MAX HEAP SIZE)
-ENTRYPOINT ["java", "-Xmx2048M", "-jar", "/application.jar"]
+# Running the application (2GB MAX HEAP SIZE)
+ENTRYPOINT ["java", "-Xmx2048M", "-jar", "/app/application.war"]

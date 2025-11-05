@@ -1,11 +1,35 @@
-version: '3.8'
+version: '3.9'
 
 services:
+  db:
+    container_name: vote_ease_db_snapshot
+    image: postgres:18
+    restart: always
+    environment:
+      POSTGRES_USER: ${DOCKER_PSQL_USER:-vote_ease_user}
+      POSTGRES_PASSWORD: ${DOCKER_PSQL_PASSWORD:-vote_ease_password}
+      POSTGRES_DB: ${DOCKER_PSQL_DB:-vote_ease_db}
+    ports:
+      - "5433:5432"
+    volumes:
+      - vote_ease_db_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DOCKER_PSQL_USER:-vote_ease_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   app:
     container_name: vote_ease_snapshot
     build: .
     image: vote_ease_app
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
       - "8010:8080"
-    environment:
-      - SPRING_SERVER_PORT=8080
+    env_file:
+      - .env
+
+volumes:
+    vote_ease_db_data:
