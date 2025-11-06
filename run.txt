@@ -8,8 +8,7 @@ docker logs -f vote_ease_snapshot
 docker compose up -d app
 docker compose up -d db
 
-docker compose stop app
-docker compose stop db
+docker compose stop <running_container_ID>
 
 docker tag vote_ease_app mchiir/vote_ease_app:latest
 docker push mchiir/vote_ease_app:latest
