@@ -1,0 +1,8 @@
+Below are commands to build a standalone and deployment-ready app image.
+
+docker build -t vote_ease_app:latest .
+docker tag vote_ease_app mchiir/vote_ease_app:latest
+docker push mchiir/vote_ease_app:latest
+
+image url: docker.io/mchiir/vote_ease_app:latest
+Note: REMOTE_PSQL_URL env-variable should be set for deployment host.
