@@ -1,4 +1,5 @@
-Before running below commands, make sure .env file is properly configured.
+Before running below commands, make sure .env and application.properties file is properly configured.
+then rebuild war. and proceed with below commands.
 
 dcker compose down -v
 
