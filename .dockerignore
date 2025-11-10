@@ -1,39 +1,5 @@
-# Maven / Gradle build output
-# Ignore everything in target except WAR
-/target/*
+# I'll ignore all, accept dependent contents
+/*
+
+# accept war
 !/target/VoteEase-0.0.1-SNAPSHOT.war
-/build
-/out
-
-# Logs
-*.log
-/logs
-*.tmp
-
-# Environment / configuration files
-.env
-*.env
-
-# IDE / Editor files
-.idea
-.vscode
-*.iml
-*.class
-
-# OS / System files
-.DS_Store
-Thumbs.db
-
-# Git
-.git
-.gitignore
-.gitattributes
-
-# Node modules (if frontend included in same project)
-node_modules
-npm-debug.log
-yarn-error.log
-
-# Docker itself
-Dockerfile*
-docker-compose*.yml
