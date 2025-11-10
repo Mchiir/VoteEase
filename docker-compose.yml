@@ -28,8 +28,10 @@ services:
         condition: service_healthy
     ports:
       - "8010:8080"
-    env_file:
-      - .env
+    environment:
+      DB_URL: ${DOCKER_PSQL_URL}
+      DB_USER: ${DOCKER_PSQL_USER}
+      DB_PASSWORD: ${DOCKER_PSQL_PASSWORD}
 
 volumes:
     vote_ease_db_data:
