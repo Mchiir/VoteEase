@@ -1,5 +1,8 @@
 Below are commands to build a standalone and deployment-ready app image.
+make sure .env and application.properties (use remote db url) are well configured.
+rebuild war, then proceed with below commands.
 
+docker rmi vote_ease_app
 docker build -t vote_ease_app:latest .
 docker tag vote_ease_app mchiir/vote_ease_app:latest
 docker push mchiir/vote_ease_app:latest
