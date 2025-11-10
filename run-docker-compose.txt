@@ -2,7 +2,6 @@ Before running below commands,
 make sure .env and application.properties file (use docker db service credentials) is properly configured.
 then rebuild war. and proceed with below commands.
 
-(Optional to delete cached images, but better)
 docker rmi vote_ease_app
 docker rmi mchiir/vote_ease_app
 docekr rmi postgres:18

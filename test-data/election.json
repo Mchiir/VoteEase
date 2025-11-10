@@ -1,0 +1,61 @@
+[
+  {
+    "title": "University Guild Elections 2025",
+    "description": "Election to choose the next Guild President and departmental representatives for the 2025 academic year.",
+    "posts": ["Guild President", "Vice President", "Treasurer"],
+    "parties": ["Unity Party", "Progress Front", "Freedom Alliance"],
+    "max_voters_count": 200,
+    "otc": "",
+    "guider": {
+      "name": "Dr. Alice Mugenzi",
+      "email": "alice.mugenzi@university.edu",
+      "password": "alicePass@123"
+    },
+    "candidates": [
+      {
+        "name": "John Kamanzi",
+        "email": "john.kamanzi@student.edu",
+        "party": "Unity Party",
+        "post": "Guild President"
+      },
+      {
+        "name": "Rita Uwase",
+        "email": "rita.uwase@student.edu",
+        "party": "Progress Front",
+        "post": "Guild President"
+      }
+    ],
+    "voters": [{
+      "description": "they vote by shared otc code only"
+    }]
+  },
+  {
+    "title": "City Youth Council Elections 2025",
+    "description": "Annual city-wide youth council elections to select district youth representatives.",
+    "posts": ["Chairperson", "Deputy Chairperson"],
+    "parties": ["Youth for Change", "Bright Future"],
+    "otc": "",
+    "guider": {
+      "name": "Mr. Emmanuel Ndizeye",
+      "email": "emmanuel.ndizeye@city.gov",
+      "password": "ndizeyeStrongPass"
+    },
+    "candidates": [
+      {
+        "name": "Linda Iradukunda",
+        "email": "linda.iradukunda@youth.gov",
+        "party": "Youth for Change",
+        "post": "Chairperson"
+      },
+      {
+        "name": "Alex Murenzi",
+        "email": "alex.murenzi@youth.gov",
+        "party": "Bright Future",
+        "post": "Chairperson"
+      }
+    ],
+    "voters": [{
+      "description": "they vote by shared otc code only"
+    }]
+  }
+]
