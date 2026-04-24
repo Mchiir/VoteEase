@@ -40,11 +40,36 @@
 - Maven
 - PostgreSQL
 
+## Running Standalone Test Classes
+
+You can run individual test/utility classes (e.g., JDBC connection
+tests) using Maven, without starting the full Spring Boot application.
+
+> Add Exec Maven Plugin, package the project and run the Test Class
+
+```xml
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>exec-maven-plugin</artifactId>
+      <version>3.6.0</version>
+    </plugin>
+  </plugins>
+</build>
+```
+
+```bash
+mvn clean package
+mvn exec:java -Dexec.mainClass="mchiir.com.vote.test.JdbcConnectionTest"
+```
+
 ## Resources used
 
 - [Spring Security - YouTube Guide](https://www.youtube.com/watch?v=X7pGCmVxx10&t=689s)
 - [Connecting to Neon PostgreSQL](https://neon.tech/docs/guides/java)
 - [Hiding Credentials in Spring Boot](https://hackernoon.com/how-to-hide-credentials-in-spring-boot)
+- [Environment variables in springboot](https://dev.to/juan_jose_miranda/spring-boot-configuration-when-to-require-default-or-leave-empty-environment-variables-an1)
 - [Docker with Spring Boot & PostgreSQL](https://medium.com/@saygiligozde/using-docker-compose-with-spring-boot-and-postgresql-235031106f9f)
 - [Dockerize Spring Boot Project Demo](https://github.com/Mchiir/Java/blob/testdocker-java)
 

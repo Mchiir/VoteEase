@@ -6,8 +6,8 @@ services:
     image: postgres:18
     restart: always
     environment:
-      POSTGRES_USER: ${DOCKER_PSQL_USER:-vote_ease_user}
-      POSTGRES_PASSWORD: ${DOCKER_PSQL_PASSWORD:-vote_ease_password}
+      POSTGRES_USER: ${DOCKER_PSQL_USER}
+      POSTGRES_PASSWORD: ${DOCKER_PSQL_PASSWORD}
       POSTGRES_DB: ${DOCKER_PSQL_DB:-vote_ease_db}
     ports:
       - "5433:5432"
